@@ -1,7 +1,8 @@
 %define	module	matplotlib
 %define	name	python-%{module}
-%define	version	0.90.0
-%define	rel	2
+%define	version	0.90.1
+%define guidever 0.90.0
+%define	rel	1
 %define	release	%mkrel %{rel}
 
 Name:		%{name}
@@ -12,16 +13,12 @@ Group:		Development/Python
 License:	Python license
 URL:		http://matplotlib.sourceforge.net/
 Source0:	http://prdownloads.sourceforge.net/matplotlib/%{module}-%{version}.tar.bz2
-Source1:	users_guide_%{version}.pdf
+Source1:	users_guide_%{guidever}.pdf
 Requires:	pygtk2.0, python-numeric, python-numarray, python-numpy
 Requires:	wxPythonGTK, python-cairo >= 1.2.0
-BuildRequires:	python-numeric-devel, python-numarray-devel, python-numpy-devel, pygtk2.0-devel 
-BuildRequires:	libwxPythonGTK-devel, libwxgtk2.6-devel, cairo-devel
-%if %mdkversion > 200600
-BuildRequires:	tcl-devel, tk-devel, freetype-devel 
-%elseqq
-BuildRequires:  tcl, tk, devel(libfreetype)
-%endif 
+BuildRequires:	python-numeric-devel, python-numarray-devel, python-numpy-devel
+BuildRequires:	libwxPythonGTK-devel, libwxgtk2.6-devel, pygtk2.0-devel, cairo-devel
+BuildRequires:	tcl-devel, tk-devel, freetype2-tools >= 2.1.7, freetype2-devel >= 2.1.7
 BuildRequires:  python-devel, libpng-devel, zlib-devel 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
@@ -51,6 +48,4 @@ find -name .cvsignore | xargs rm -rf
 
 %files -f INSTALLED_FILES
 %defattr(-,root,root)
-%doc license/ examples/ README TODO CHANGELOG INSTALL INTERACTIVE KNOWN_BUGS PKG-INFO API_CHANGES NUMARRAY_ISSUES users_guide_%{version}.pdf
-
-
+%doc license/ examples/ README TODO CHANGELOG INSTALL INTERACTIVE KNOWN_BUGS PKG-INFO API_CHANGES NUMARRAY_ISSUES users_guide_%{guidever}.pdf
