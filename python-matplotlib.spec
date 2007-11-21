@@ -2,7 +2,7 @@
 %define	name	python-%{module}
 %define	version	0.90.1
 %define guidever 0.90.0
-%define	rel	1
+%define	rel	2
 %define	release	%mkrel %{rel}
 
 Name:		%{name}
@@ -17,8 +17,8 @@ Source1:	users_guide_%{guidever}.pdf
 Requires:	pygtk2.0, python-numeric, python-numarray, python-numpy
 Requires:	wxPythonGTK, python-cairo >= 1.2.0
 BuildRequires:	python-numeric-devel, python-numarray-devel, python-numpy-devel
-BuildRequires:	libwxPythonGTK-devel, libwxgtk2.6-devel, pygtk2.0-devel, cairo-devel
-BuildRequires:	tcl-devel, tk-devel, freetype2-tools >= 2.1.7, freetype2-devel >= 2.1.7
+BuildRequires:	libwxPythonGTK-devel, pygtk2.0-devel, cairo-devel
+BuildRequires:	tcl-devel, tk-devel, freetype2-devel >= 2.1.7
 BuildRequires:  python-devel, libpng-devel, zlib-devel 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
