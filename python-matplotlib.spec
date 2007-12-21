@@ -20,6 +20,7 @@ BuildRequires:	python-numeric-devel, python-numarray-devel, python-numpy-devel
 BuildRequires:	libwxPythonGTK-devel, pygtk2.0-devel, cairo-devel
 BuildRequires:	tcl-devel, tk-devel, freetype2-devel >= 2.1.7
 BuildRequires:  python-devel, libpng-devel, zlib-devel 
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 matplotlib is a 2D plotting library for Python which produces
