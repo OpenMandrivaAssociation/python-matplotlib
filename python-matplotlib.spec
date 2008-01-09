@@ -1,7 +1,8 @@
 %define	module	matplotlib
 %define	name	python-%{module}
-%define	version	0.91.1
-%define	rel	2
+%define manver  0.91.2svn
+%define	version	0.91.2
+%define	rel	1
 %define	release	%mkrel %{rel}
 
 Name:		%{name}
@@ -12,8 +13,7 @@ Group:		Development/Python
 License:	Python license
 URL:		http://matplotlib.sourceforge.net/
 Source0:	http://prdownloads.sourceforge.net/matplotlib/%{module}-%{version}.tar.bz2
-Source1:	users_guide_%{version}.pdf
-Patch0:		fix-verbose.patch
+Source1:	users_guide_%{manver}.pdf
 Requires:	pygtk2.0, python-numeric, python-numarray, python-numpy
 Requires:	wxPythonGTK, python-cairo >= 1.2.0
 BuildRequires:	python-numeric-devel, python-numarray-devel, python-numpy-devel
@@ -32,7 +32,6 @@ interface toolkits.
 
 %prep
 %setup -q -n %{module}-%{version}
-%patch0 -p0 
 %__install -m 644 %{SOURCE1} ./
 
 %build
@@ -49,4 +48,4 @@ find -name .cvsignore | xargs rm -rf
 
 %files -f INSTALLED_FILES
 %defattr(-,root,root)
-%doc license/ examples/ README TODO CHANGELOG INSTALL INTERACTIVE KNOWN_BUGS PKG-INFO API_CHANGES users_guide_%{version}.pdf
+%doc license/ examples/ README TODO CHANGELOG INSTALL INTERACTIVE KNOWN_BUGS PKG-INFO API_CHANGES users_guide_%{manver}.pdf
