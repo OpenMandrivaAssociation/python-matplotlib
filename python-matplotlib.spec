@@ -2,7 +2,7 @@
 %define	name	python-%{module}
 %define manver  0.91.2svn
 %define	version	0.91.2
-%define	rel	1
+%define	rel	2
 %define	release	%mkrel %{rel}
 
 Name:		%{name}
@@ -16,10 +16,12 @@ Source0:	http://prdownloads.sourceforge.net/matplotlib/%{module}-%{version}.tar.
 Source1:	users_guide_%{manver}.pdf
 Requires:	pygtk2.0, python-numeric, python-numarray, python-numpy
 Requires:	wxPythonGTK, python-cairo >= 1.2.0
+Requires:	python-configobj
 BuildRequires:	python-numeric-devel, python-numarray-devel, python-numpy-devel
 BuildRequires:	libwxPythonGTK-devel, pygtk2.0-devel, cairo-devel
 BuildRequires:	tcl-devel, tk-devel, freetype2-devel >= 2.1.7
-BuildRequires:  python-devel, libpng-devel, zlib-devel 
+BuildRequires:	python-configobj
+BuildRequires:	python-devel, libpng-devel, zlib-devel 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
