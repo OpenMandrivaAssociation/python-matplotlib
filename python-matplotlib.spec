@@ -1,6 +1,6 @@
 %define	module	matplotlib
 %define	name	python-%{module}
-%define	version	0.98.1
+%define	version	0.98.2
 %define	release	%mkrel 1
 
 Name:		%{name}
@@ -11,7 +11,7 @@ Group:		Development/Python
 License:	Python license
 URL:		http://matplotlib.sourceforge.net/
 Source0:	%{module}-%{version}.tar.lzma
-Source1:	users_guide_0.98.0.pdf
+Source1:	Matplotlib.pdf
 Requires:	python >= 2.4, python-numpy >= 1.1.0
 Requires:	pygtk2.0, wxPythonGTK, python-cairo >= 1.2.0
 Requires:	python-configobj
@@ -53,4 +53,4 @@ find -name .svn | xargs rm -rf
 
 %files -f FILELIST
 %defattr(-,root,root)
-%doc license/ examples/ API_CHANGES CHANGELOG INSTALL INTERACTIVE KNOWN_BUGS TODO users_guide_0.98.0.pdf
+%doc license/ examples/ API_CHANGES CHANGELOG INSTALL INTERACTIVE KNOWN_BUGS TODO Matplotlib.pdf
