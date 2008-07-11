@@ -1,7 +1,7 @@
 %define	module	matplotlib
 %define	name	python-%{module}
 %define	version	0.98.2
-%define	release	%mkrel 1
+%define	release	%mkrel 2
 
 Name:		%{name}
 Version:	%{version}
@@ -14,11 +14,12 @@ Source0:	%{module}-%{version}.tar.lzma
 Source1:	Matplotlib.pdf
 Requires:	python >= 2.4, python-numpy >= 1.1.0
 Requires:	pygtk2.0, wxPythonGTK, python-cairo >= 1.2.0
-Requires:	python-configobj
+Requires:	python-configobj, python-dateutil, python-pytz
 BuildRequires:	python-devel >= 2.4, python-numpy-devel >= 1.1.0
 BuildRequires:	libwxPythonGTK-devel, pygtk2.0-devel, cairo-devel
 BuildRequires:	tcl-devel, tk-devel, freetype2-devel >= 2.1.7
-BuildRequires:	python-configobj, libpng-devel, zlib-devel 
+BuildRequires:  libpng-devel, zlib-devel 
+BuildRequires:	python-configobj, python-dateutil, python-pytz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
