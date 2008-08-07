@@ -45,7 +45,9 @@ find -name .svn | xargs rm -rf
 
 %__python setup.py build
 
+# Need to make built matplotlib libs available for the sphinx extensions:
 pushd doc
+export PYTHONPATH=`dir -d ../build/lib.linux*`
 ./make.py latex
 popd
 
