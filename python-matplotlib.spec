@@ -22,6 +22,7 @@ BuildRequires:  libpng-devel, zlib-devel
 BuildRequires:	python-configobj, python-dateutil, python-pytz
 BuildRequires:	python-enthought-traits, python-enthought-traits-ui
 BuildRequires:	python-docutils, python-sphinx, tetex-latex
+BuildRequires:	ipython
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
