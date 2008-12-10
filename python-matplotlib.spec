@@ -1,8 +1,8 @@
 %define	module	matplotlib
 
 Name:		python-%{module}
-Version:	0.98.3
-Release:	%{mkrel 3}
+Version:	0.98.4
+Release:	%{mkrel 1}
 Summary:	Matlab-style 2D plotting package for Python
 Group:		Development/Python
 License:	Python license
@@ -58,4 +58,4 @@ popd
 
 %files -f FILELIST
 %defattr(-,root,root)
-%doc license/ examples/ API_CHANGES CHANGELOG INSTALL INTERACTIVE KNOWN_BUGS TODO doc/build/latex/Matplotlib.pdf
+%doc license/ examples/ CHANGELOG INSTALL INTERACTIVE KNOWN_BUGS TODO doc/build/latex/Matplotlib.pdf
