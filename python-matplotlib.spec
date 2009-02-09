@@ -1,8 +1,8 @@
 %define	module	matplotlib
 
 Name:		python-%{module}
-Version:	0.98.5.2
-Release:	%{mkrel 2}
+Version:	0.98.5.3
+Release:	%{mkrel 1}
 Summary:	Matlab-style 2D plotting package for Python
 Group:		Development/Python
 License:	Python license
