@@ -2,7 +2,7 @@
 
 Name:		python-%{module}
 Version:	0.98.5.3
-Release:	%{mkrel 1}
+Release:	%{mkrel 2}
 Summary:	Matlab-style 2D plotting package for Python
 Group:		Development/Python
 License:	Python license
@@ -14,14 +14,14 @@ Patch0:		python-matplotlib-0.98.5.2-literal.patch
 Requires:	python-numpy >= 1.1.0
 Requires:	pygtk2.0, wxPythonGTK, python-cairo >= 1.2.0
 Requires:	python-configobj, python-dateutil, python-pytz
-Requires:	python-enthought-traits
+# Requires:	python-enthought-traits
 BuildRequires:	python-setuptools
 BuildRequires:	python-numpy-devel >= 1.1.0
 BuildRequires:	libwxPythonGTK-devel, pygtk2.0-devel, cairo-devel
 BuildRequires:	tcl-devel, tk-devel, freetype2-devel >= 2.1.7
 BuildRequires:  libpng-devel, zlib-devel 
 BuildRequires:	python-configobj, python-dateutil, python-pytz
-BuildRequires:	python-enthought-traits
+# BuildRequires:	python-enthought-traits
 BuildRequires:	python-docutils, python-sphinx, tetex-latex
 BuildRequires:	ipython
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
