@@ -1,15 +1,14 @@
 %define	module	matplotlib
 
 Name:		python-%{module}
-Version:	0.98.5.3
-Release:	%{mkrel 2}
+Version:	0.99.0
+Release:	%{mkrel 1}
 Summary:	Matlab-style 2D plotting package for Python
 Group:		Development/Python
 License:	Python license
 URL:		http://matplotlib.sourceforge.net/
-Source0:	%{module}-%{version}.tar.lzma
+Source0:	http://downloads.sourceforge.net/project/%{module}/%{module}/%{module}-%{version}/%{module}-%{version}.tar.gz
 # Fix string literal error - AdamW 2008/12
-Patch0:		python-matplotlib-0.98.5.2-literal.patch
 %{py_requires -d}
 Requires:	python-numpy >= 1.1.0
 Requires:	pygtk2.0, wxPythonGTK, python-cairo >= 1.2.0
@@ -41,7 +40,6 @@ arrays in Python. It consists of three conceptual portions:
 
 %prep
 %setup -q -n %{module}-%{version}
-%patch0 -p1 -b .literal
 
 %build
 find -name .svn | xargs rm -rf
