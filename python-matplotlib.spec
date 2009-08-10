@@ -2,13 +2,12 @@
 
 Name:		python-%{module}
 Version:	0.99.0
-Release:	%{mkrel 1}
+Release:	%{mkrel 2}
 Summary:	Matlab-style 2D plotting package for Python
 Group:		Development/Python
 License:	Python license
 URL:		http://matplotlib.sourceforge.net/
 Source0:	http://downloads.sourceforge.net/project/%{module}/%{module}/%{module}-%{version}/%{module}-%{version}.tar.gz
-# Fix string literal error - AdamW 2008/12
 %{py_requires -d}
 Requires:	python-numpy >= 1.1.0
 Requires:	pygtk2.0, wxPythonGTK, python-cairo >= 1.2.0
@@ -21,7 +20,7 @@ BuildRequires:	tcl-devel, tk-devel, freetype2-devel >= 2.1.7
 BuildRequires:  libpng-devel, zlib-devel 
 BuildRequires:	python-configobj, python-dateutil, python-pytz
 # BuildRequires:	python-enthought-traits
-BuildRequires:	python-docutils, python-sphinx, tetex-latex
+BuildRequires:	python-docutils, python-sphinx
 BuildRequires:	ipython
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
@@ -49,7 +48,7 @@ find -name .svn | xargs rm -rf
 # Need to make built matplotlib libs available for the sphinx extensions:
 pushd doc
 export PYTHONPATH=`dir -d ../build/lib.linux*`
-./make.py latex
+./make.py html
 popd
 
 %install
@@ -61,4 +60,4 @@ popd
 
 %files -f FILELIST
 %defattr(-,root,root)
-%doc license/ examples/ CHANGELOG INSTALL INTERACTIVE KNOWN_BUGS TODO doc/build/latex/Matplotlib.pdf
+%doc license/ examples/ CHANGELOG INSTALL INTERACTIVE KNOWN_BUGS TODO doc/build/html/*
