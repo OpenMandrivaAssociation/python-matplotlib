@@ -2,14 +2,13 @@
 
 Name:		python-%{module}
 Version:	0.99.1
-Release:	%{mkrel 1}
+Release:	%{mkrel 2}
 Summary:	Matlab-style 2D plotting package for Python
 Group:		Development/Python
 License:	Python license
 URL:		http://matplotlib.sourceforge.net/
 Source0:	http://downloads.sourceforge.net/project/%{module}/%{module}/%{module}-%{version}/%{module}-%{version}.tar.gz
 %{py_requires -d}
-Source1:	setup.cfg
 Requires:	python-numpy >= 1.1.0
 Requires:	pygtk2.0, wxPythonGTK, python-cairo >= 1.2.0
 Requires:	python-configobj, python-dateutil, python-pytz
@@ -38,7 +37,6 @@ arrays in Python. It consists of three conceptual portions:
 
 %prep
 %setup -q -n %{module}-%{version}
-%__cp -f %SOURCE1 .
 
 %build
 find -name .svn | xargs rm -rf
