@@ -2,7 +2,7 @@
 
 Name:		python-%{module}
 Version:	0.99.1
-Release:	%{mkrel 2}
+Release:	%{mkrel 3}
 Summary:	Matlab-style 2D plotting package for Python
 Group:		Development/Python
 License:	Python license
@@ -12,10 +12,12 @@ Source0:	http://downloads.sourceforge.net/project/%{module}/%{module}/%{module}-
 Requires:	python-numpy >= 1.1.0
 Requires:	pygtk2.0, wxPythonGTK, python-cairo >= 1.2.0
 Requires:	python-configobj, python-dateutil, python-pytz
+Requires:	python-qt, python-qt4
 BuildRequires:	python-setuptools
 BuildRequires:	python-numpy-devel >= 1.1.0
 BuildRequires:	libwxPythonGTK-devel, pygtk2.0-devel, cairo-devel
 BuildRequires:	tcl-devel, tk-devel, freetype2-devel >= 2.1.7
+BuildRequires:	python-qt, python-qt4
 BuildRequires:  libpng-devel, zlib-devel 
 BuildRequires:	python-configobj, python-dateutil, python-pytz
 BuildRequires:	python-docutils, python-sphinx
