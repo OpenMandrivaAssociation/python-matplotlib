@@ -2,7 +2,7 @@
 
 Name:		python-%{module}
 Version:	0.99.1
-Release:	%{mkrel 3}
+Release:	%{mkrel 4}
 Summary:	Matlab-style 2D plotting package for Python
 Group:		Development/Python
 License:	Python license
