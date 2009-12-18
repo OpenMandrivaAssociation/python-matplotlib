@@ -1,8 +1,8 @@
 %define	module	matplotlib
 
 Name:		python-%{module}
-Version:	0.99.1
-Release:	%{mkrel 4}
+Version:	0.99.1.2
+Release:	%{mkrel 1}
 Summary:	Matlab-style 2D plotting package for Python
 Group:		Development/Python
 License:	Python license
@@ -25,20 +25,14 @@ BuildRequires:	ipython
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
-Matplotlib is a library for creating publication quality 2D plots of 
-arrays in Python. It consists of three conceptual portions:
-
-* the pylab interface - a set of functions that permit one 
-  to interactively create plots with code similar to that used in Matlab.
-* the matplotlib API - a set of classes that handle figure
-  creation management, text, lines, plots, and so on.
-* the backends - device dependent rendering systems that transform
-  frontend plot representations into various graphic formats 
-  (such as PS, PDF, SVG, and PNG) or translate them to display devices 
-  (such as figures embedded in GTK+ or Wx applications).
+matplotlib is a python 2D plotting library which produces publication
+quality figures in a variety of hardcopy formats and interactive
+environments across platforms. matplotlib can be used in python
+scripts, the python and ipython shell (ala matlab or mathematica), web
+application servers, and various graphical user interface toolkits.
 
 %prep
-%setup -q -n %{module}-%{version}
+%setup -q -n %{module}-0.99.1.1
 
 %build
 find -name .svn | xargs rm -rf
