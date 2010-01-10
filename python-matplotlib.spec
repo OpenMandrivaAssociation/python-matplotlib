@@ -1,22 +1,24 @@
 %define	module	matplotlib
+%define name	python-%{module}
+%define version	0.99.1.2
+%define release	%mkrel 2
 
-Name:		python-%{module}
-Version:	0.99.1.2
-Release:	%{mkrel 1}
+Name:		%{name}
+Version:	%{version}
+Release:	%{release}
 Summary:	Matlab-style 2D plotting package for Python
 Group:		Development/Python
 License:	Python license
 URL:		http://matplotlib.sourceforge.net/
 Source0:	http://downloads.sourceforge.net/project/%{module}/%{module}/%{module}-%{version}/%{module}-%{version}.tar.gz
 %{py_requires -d}
+Patch0:		setupext-tk-include-0.99.1.2.patch
 Requires:	python-numpy >= 1.1.0
-Requires:	pygtk2.0, wxPythonGTK, python-cairo >= 1.2.0
 Requires:	python-configobj, python-dateutil, python-pytz
-Requires:	python-qt, python-qt4
 BuildRequires:	python-setuptools
 BuildRequires:	python-numpy-devel >= 1.1.0
 BuildRequires:	libwxPythonGTK-devel, pygtk2.0-devel, cairo-devel
-BuildRequires:	tcl-devel, tk-devel, freetype2-devel >= 2.1.7
+BuildRequires:	tkinter, tcl-devel, tk-devel, freetype2-devel >= 2.1.7
 BuildRequires:	python-qt, python-qt4
 BuildRequires:  libpng-devel, zlib-devel 
 BuildRequires:	python-configobj, python-dateutil, python-pytz
@@ -25,14 +27,97 @@ BuildRequires:	ipython
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
-matplotlib is a python 2D plotting library which produces publication
+matplotlib is a Python 2D plotting library which produces publication
 quality figures in a variety of hardcopy formats and interactive
-environments across platforms. matplotlib can be used in python
-scripts, the python and ipython shell (ala matlab or mathematica), web
+environments across platforms. matplotlib can be used in Python
+scripts, the python and ipython shell (ala Matlab or Mathematica), web
 application servers, and various graphical user interface toolkits.
+
+%package cairo
+Summary:	Cairo backend for matplotlib
+Group:		Development/Python
+Requires:	%{name} = %{version}-%{release}
+Requires:	python-cairo >= 1.2.0
+
+%description cairo
+This package contains the Cairo backend for matplotlib.
+
+%package emf
+Summary:	EMF backend for matplotlib
+Group:		Development/Python
+Requires:	%{name} = %{version}-%{release}
+Requires:	python-pyemf
+
+%description emf
+This package contains the EMF backend for matplotlib.
+
+%package fltk
+Summary:	FLTK backend for matplotlib
+Group:		Development/Python
+Requires:	%{name} = %{version}-%{release}
+Requires:	python-pyfltk
+
+%description fltk
+This package contains the FLTK backend for matplotlib.
+
+%package gtk
+Summary:	GDK and GTK backends for matplotlib
+Group:		Development/Python
+Requires:	%{name} = %{version}-%{release}
+Requires:	pygtk2.0 >= 2.4.0
+Requires:	%{name}-cairo = %{version}-%{release}
+
+%description gtk
+This package contains the GDK and GTK backends for matplotlib.
+
+%package qt
+Summary:	Qt backend for matplotlib
+Group:		Development/Python
+Requires:	%{name} = %{version}-%{release}
+Requires:	python-qt
+
+%description qt
+This package contains the Qt backend for matplotlib.
+
+%package qt4
+Summary:	Qt backend for matplotlib
+Group:		Development/Python
+Requires:	%{name} = %{version}-%{release}
+Requires:	python-qt4
+
+%description qt4
+This package contains the Qt4 backend for matplotlib.
+
+%package svg
+Summary:	SVG backend for matplotlib
+Group:		Development/Python
+Requires:	%{name} = %{version}-%{release}
+Requires:	python-pyxml
+
+%description svg
+This package contains the SVG backend for matplotlib.
+
+%package tk
+Summary:	Tk backend for matplotlib
+Group:		Development/Python
+Requires:	%{name} = %{version}-%{release}
+Requires:	tkinter
+
+%description tk
+This package contains the Tk backend for matplotlib.
+
+%package wx
+Summary:	wxPython backend for matplotlib
+Group:		Development/Python
+Requires:	%{name} = %{version}-%{release}
+Requires:	wxPython
+
+%description wx
+This package contains the wxPython backend for matplotlib.
 
 %prep
 %setup -q -n %{module}-0.99.1.1
+%patch0 -p0 -b .setupext
 
 %build
 find -name .svn | xargs rm -rf
@@ -55,3 +140,61 @@ popd
 %files -f FILELIST
 %defattr(-,root,root)
 %doc license/ examples/ CHANGELOG INSTALL INTERACTIVE KNOWN_BUGS TODO doc/build/html/*
+%exclude %{py_platsitedir}/%{module}/backends/backend_cairo.py*
+%exclude %{py_platsitedir}/%{module}/backends/backend_emf.py*
+%exclude %{py_platsitedir}/%{module}/backends/backend_fltkagg.py*
+%exclude %{py_platsitedir}/%{module}/backends/backend_gdk.py*
+%exclude %{py_platsitedir}/%{module}/backends/backend_gtk.py*
+%exclude %{py_platsitedir}/%{module}/backends/backend_gtkagg.py*
+%exclude %{py_platsitedir}/%{module}/backends/backend_gtkcairo.py*
+%exclude %{py_platsitedir}/%{module}/backends/_backend_gdk.so
+%exclude %{py_platsitedir}/%{module}/backends/_gtkagg.so
+%exclude %{py_platsitedir}/%{module}/backends/backend_qt.py*
+%exclude %{py_platsitedir}/%{module}/backends/backend_qtagg.py*
+%exclude %{py_platsitedir}/%{module}/backends/backend_qt4.py*
+%exclude %{py_platsitedir}/%{module}/backends/backend_qt4agg.py*
+%exclude %{py_platsitedir}/%{module}/backends/backend_svg.py*
+%exclude %{py_platsitedir}/%{module}/backends/backend_tkagg.py*
+%exclude %{py_platsitedir}/%{module}/backends/tkagg.py*
+%exclude %{py_platsitedir}/%{module}/backends/_tkagg.so
+%exclude %{py_platsitedir}/%{module}/backends/backend_wx.py*
+%exclude %{py_platsitedir}/%{module}/backends/backend_wxagg.py*
+
+%files cairo
+%{py_platsitedir}/%{module}/backends/backend_cairo.py*
+
+%files emf
+%{py_platsitedir}/%{module}/backends/backend_emf.py*
+
+%files fltk
+%{py_platsitedir}/%{module}/backends/backend_fltkagg.py*
+
+%files gtk
+%{py_platsitedir}/%{module}/backends/backend_gdk.py*
+%{py_platsitedir}/%{module}/backends/backend_gtk.py*
+%{py_platsitedir}/%{module}/backends/backend_gtkagg.py*
+%{py_platsitedir}/%{module}/backends/backend_gtkcairo.py*
+%{py_platsitedir}/%{module}/backends/_backend_gdk.so
+%{py_platsitedir}/%{module}/backends/_gtkagg.so
+
+%files qt
+%{py_platsitedir}/%{module}/backends/backend_qt.py*
+%{py_platsitedir}/%{module}/backends/backend_qtagg.py*
+
+%files qt4
+%{py_platsitedir}/%{module}/backends/backend_qt4.py*
+%{py_platsitedir}/%{module}/backends/backend_qt4agg.py*
+
+%files svg
+%{py_platsitedir}/%{module}/backends/backend_svg.py*
+
+%files tk
+%{py_platsitedir}/%{module}/backends/backend_tkagg.py*
+%{py_platsitedir}/%{module}/backends/tkagg.py*
+%{py_platsitedir}/%{module}/backends/_tkagg.so
+
+%files wx
+%{py_platsitedir}/%{module}/backends/backend_wx.py*
+%{py_platsitedir}/%{module}/backends/backend_wxagg.py*
+
+
