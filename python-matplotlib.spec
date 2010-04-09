@@ -1,7 +1,7 @@
 %define	module	matplotlib
 %define name	python-%{module}
 %define version	0.99.1.2
-%define release	%mkrel 2
+%define release	%mkrel 3
 
 Name:		%{name}
 Version:	%{version}
@@ -115,6 +115,13 @@ Requires:	wxPython
 %description wx
 This package contains the wxPython backend for matplotlib.
 
+%package doc
+Summary:	Documentation for matplotlib
+Group:		Development/Python
+
+%description doc
+This package contains documentation and sample code for matplotlib.
+
 %prep
 %setup -q -n %{module}-0.99.1.1
 %patch0 -p0 -b .setupext
@@ -132,14 +139,13 @@ popd
 
 %install
 %__rm -rf %{buildroot}
-%__python setup.py install --root=%{buildroot} --record=FILELIST
+PYTHONDONTWRITEBYTECODE= %__python setup.py install --root=%{buildroot} --record=FILELIST
 
 %clean
 %__rm -rf %{buildroot}
 
 %files -f FILELIST
 %defattr(-,root,root)
-%doc license/ examples/ CHANGELOG INSTALL INTERACTIVE KNOWN_BUGS TODO doc/build/html/*
 %exclude %{py_platsitedir}/%{module}/backends/backend_cairo.py*
 %exclude %{py_platsitedir}/%{module}/backends/backend_emf.py*
 %exclude %{py_platsitedir}/%{module}/backends/backend_fltkagg.py*
@@ -161,15 +167,19 @@ popd
 %exclude %{py_platsitedir}/%{module}/backends/backend_wxagg.py*
 
 %files cairo
+%defattr(-,root,root)
 %{py_platsitedir}/%{module}/backends/backend_cairo.py*
 
 %files emf
+%defattr(-,root,root)
 %{py_platsitedir}/%{module}/backends/backend_emf.py*
 
 %files fltk
+%defattr(-,root,root)
 %{py_platsitedir}/%{module}/backends/backend_fltkagg.py*
 
 %files gtk
+%defattr(-,root,root)
 %{py_platsitedir}/%{module}/backends/backend_gdk.py*
 %{py_platsitedir}/%{module}/backends/backend_gtk.py*
 %{py_platsitedir}/%{module}/backends/backend_gtkagg.py*
@@ -178,23 +188,29 @@ popd
 %{py_platsitedir}/%{module}/backends/_gtkagg.so
 
 %files qt
+%defattr(-,root,root)
 %{py_platsitedir}/%{module}/backends/backend_qt.py*
 %{py_platsitedir}/%{module}/backends/backend_qtagg.py*
 
 %files qt4
+%defattr(-,root,root)
 %{py_platsitedir}/%{module}/backends/backend_qt4.py*
 %{py_platsitedir}/%{module}/backends/backend_qt4agg.py*
 
 %files svg
+%defattr(-,root,root)
 %{py_platsitedir}/%{module}/backends/backend_svg.py*
 
 %files tk
+%defattr(-,root,root)
 %{py_platsitedir}/%{module}/backends/backend_tkagg.py*
 %{py_platsitedir}/%{module}/backends/tkagg.py*
 %{py_platsitedir}/%{module}/backends/_tkagg.so
 
 %files wx
+%defattr(-,root,root)
 %{py_platsitedir}/%{module}/backends/backend_wx.py*
 %{py_platsitedir}/%{module}/backends/backend_wxagg.py*
 
-
+%files doc
+%doc license/ examples/ CHANGELOG INTERACTIVE KNOWN_BUGS TODO doc/build/html/*
