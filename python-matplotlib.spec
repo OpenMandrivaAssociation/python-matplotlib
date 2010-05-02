@@ -1,7 +1,7 @@
 %define	module	matplotlib
 %define name	python-%{module}
 %define version	0.99.1.2
-%define release	%mkrel 3
+%define release	%mkrel 4
 
 Name:		%{name}
 Version:	%{version}
@@ -15,6 +15,7 @@ Source0:	http://downloads.sourceforge.net/project/%{module}/%{module}/%{module}-
 Patch0:		setupext-tk-include-0.99.1.2.patch
 Requires:	python-numpy >= 1.1.0
 Requires:	python-configobj, python-dateutil, python-pytz
+Requires:	python-matplotlib-gtk = %{version}-%{release}
 BuildRequires:	python-setuptools
 BuildRequires:	python-numpy-devel >= 1.1.0
 BuildRequires:	libwxPythonGTK-devel, pygtk2.0-devel, cairo-devel
