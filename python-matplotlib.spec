@@ -1,7 +1,7 @@
 %define	module	matplotlib
 %define name	python-%{module}
-%define version	0.99.1.2
-%define release	%mkrel 4
+%define version	0.99.3
+%define release	%mkrel 1
 
 Name:		%{name}
 Version:	%{version}
@@ -124,7 +124,7 @@ Group:		Development/Python
 This package contains documentation and sample code for matplotlib.
 
 %prep
-%setup -q -n %{module}-0.99.1.1
+%setup -q -n %{module}-%{version}
 %patch0 -p0 -b .setupext
 
 %build
