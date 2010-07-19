@@ -1,6 +1,6 @@
 %define	module	matplotlib
 %define name	python-%{module}
-%define version	0.99.3
+%define version	1.0.0
 %define release	%mkrel 1
 
 Name:		%{name}
@@ -130,7 +130,10 @@ This package contains documentation and sample code for matplotlib.
 %build
 find -name .svn | xargs rm -rf
 
-%__python setup.py build
+# Remove duplicate test data file:
+%__rm -f lib/matplotlib/tests/baseline_images/test_axes/shaped\ data.svg
+
+PYTHONDONTWRITEBYTECODE= %__python setup.py build
 
 # Need to make built matplotlib libs available for the sphinx extensions:
 pushd doc
