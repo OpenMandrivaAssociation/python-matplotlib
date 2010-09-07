@@ -1,7 +1,7 @@
 %define	module	matplotlib
 %define name	python-%{module}
 %define version	1.0.0
-%define release	%mkrel 1
+%define release	%mkrel 2
 
 Name:		%{name}
 Version:	%{version}
@@ -31,7 +31,7 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 matplotlib is a Python 2D plotting library which produces publication
 quality figures in a variety of hardcopy formats and interactive
 environments across platforms. matplotlib can be used in Python
-scripts, the python and ipython shell (ala Matlab or Mathematica), web
+scripts, the python and ipython shell (a la Matlab or Mathematica), web
 application servers, and various graphical user interface toolkits.
 
 %package cairo
