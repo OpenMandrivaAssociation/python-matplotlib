@@ -1,7 +1,7 @@
 %define	module	matplotlib
 %define name	python-%{module}
 %define version	1.0.0
-%define release	%mkrel 2
+%define release	%mkrel 3
 
 Name:		%{name}
 Version:	%{version}
@@ -119,6 +119,7 @@ This package contains the wxPython backend for matplotlib.
 %package doc
 Summary:	Documentation for matplotlib
 Group:		Development/Python
+BuildArch: noarch
 
 %description doc
 This package contains documentation and sample code for matplotlib.
