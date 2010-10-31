@@ -1,7 +1,7 @@
 %define	module	matplotlib
 %define name	python-%{module}
 %define version	1.0.0
-%define release	%mkrel 3
+%define release	%mkrel 4
 
 Name:		%{name}
 Version:	%{version}
