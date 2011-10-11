@@ -1,7 +1,7 @@
 %define	module	matplotlib
 %define name	python-%{module}
-%define version	1.0.1
-%define release	%mkrel 3
+%define version	1.1.0
+%define release	%mkrel 1
 
 Name:		%{name}
 Version:	%{version}
@@ -218,4 +218,4 @@ PYTHONDONTWRITEBYTECODE= %__python setup.py install --root=%{buildroot} --record
 %{py_platsitedir}/%{module}/backends/backend_wxagg.py*
 
 %files doc
-%doc license/ examples/ CHANGELOG INTERACTIVE KNOWN_BUGS TODO doc/build/html/*
+%doc examples/ CHANGELOG README.txt TODO doc/build/html/*
