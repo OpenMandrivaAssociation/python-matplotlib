@@ -18,6 +18,7 @@ URL:		http://matplotlib.sourceforge.net/
 Source0:	http://downloads.sourceforge.net/project/%{module}/%{module}/%{module}-%{version}/%{module}-%{version}.tar.gz
 %{py_requires -d}
 Patch0:		setupext-tk-include-0.99.1.2.patch
+Patch1:		setupext-x86_64-libdir-1.1.1.patch
 Requires:	python-numpy >= 1.1.0
 Requires:	python-configobj, python-dateutil, python-pytz
 Requires:	python-matplotlib-gtk = %{version}-%{release}
@@ -132,6 +133,7 @@ This package contains documentation and sample code for matplotlib.
 %prep
 %setup -q -n %{module}-%{version}
 %patch0 -p0 -b .setupext
+%patch1 -p0 -b .x86_64
 
 %build
 find -name .svn | xargs rm -rf
