@@ -151,32 +151,36 @@ popd
 
 %install
 %__rm -rf %{buildroot}
-PYTHONDONTWRITEBYTECODE= %__python setup.py install --root=%{buildroot} --record=FILELIST
+PYTHONDONTWRITEBYTECODE= %__python setup.py install --root=%{buildroot}
 
 %clean
 %__rm -rf %{buildroot}
 
-%files -f FILELIST
+%files
 %defattr(-,root,root)
-%exclude %{py_platsitedir}/%{module}/backends/backend_cairo.py*
-%exclude %{py_platsitedir}/%{module}/backends/backend_emf.py*
-%exclude %{py_platsitedir}/%{module}/backends/backend_fltkagg.py*
-%exclude %{py_platsitedir}/%{module}/backends/backend_gdk.py*
-%exclude %{py_platsitedir}/%{module}/backends/backend_gtk.py*
-%exclude %{py_platsitedir}/%{module}/backends/backend_gtkagg.py*
-%exclude %{py_platsitedir}/%{module}/backends/backend_gtkcairo.py*
-%exclude %{py_platsitedir}/%{module}/backends/_backend_gdk.so
-%exclude %{py_platsitedir}/%{module}/backends/_gtkagg.so
-%exclude %{py_platsitedir}/%{module}/backends/backend_qt.py*
-%exclude %{py_platsitedir}/%{module}/backends/backend_qtagg.py*
-%exclude %{py_platsitedir}/%{module}/backends/backend_qt4.py*
-%exclude %{py_platsitedir}/%{module}/backends/backend_qt4agg.py*
-%exclude %{py_platsitedir}/%{module}/backends/backend_svg.py*
-%exclude %{py_platsitedir}/%{module}/backends/backend_tkagg.py*
-%exclude %{py_platsitedir}/%{module}/backends/tkagg.py*
-%exclude %{py_platsitedir}/%{module}/backends/_tkagg.so
-%exclude %{py_platsitedir}/%{module}/backends/backend_wx.py*
-%exclude %{py_platsitedir}/%{module}/backends/backend_wxagg.py*
+%{py_platsitedir}/%{module}/*.py*
+%{py_platsitedir}/%{module}/*.so
+%{py_platsitedir}/%{module}*egg-info
+%{py_platsitedir}/%{module}/backends/Matplotlib.nib*
+%{py_platsitedir}/%{module}/backends/__init__*
+%{py_platsitedir}/%{module}/backends/*backend_agg*
+%{py_platsitedir}/%{module}/backends/backend_cocoa*
+%{py_platsitedir}/%{module}/backends/backend_macosx*
+%{py_platsitedir}/%{module}/backends/backend_mixed*
+%{py_platsitedir}/%{module}/backends/backend_pdf*
+%{py_platsitedir}/%{module}/backends/backend_ps*
+%{py_platsitedir}/%{module}/backends/backend_template*
+%{py_platsitedir}/%{module}/backends/windowing*
+%{py_platsitedir}/%{module}/backends/qt4_compat*
+%{py_platsitedir}/%{module}/backends/qt4_editor*
+%{py_platsitedir}/%{module}/delaunay*
+%{py_platsitedir}/%{module}/mpl-data/*
+%{py_platsitedir}/%{module}/projections*
+%{py_platsitedir}/%{module}/sphinxext*
+%{py_platsitedir}/%{module}/test*
+%{py_platsitedir}/%{module}/tri*
+%{py_platsitedir}/mpl_toolkits*
+%{py_platsitedir}/pylab*
 
 %files cairo
 %defattr(-,root,root)
