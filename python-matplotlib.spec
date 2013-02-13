@@ -1,3 +1,4 @@
+%define with_html 0
 %define	module	matplotlib
 
 Name:		python-%{module}
@@ -22,9 +23,11 @@ BuildRequires:	pkgconfig(freetype2)
 BuildRequires:	pkgconfig(libpng)
 BuildRequires:	zlib-devel
 BuildRequires:	python-configobj, python-dateutil, python-pytz
-BuildRequires:	python-docutils, python-sphinx
 BuildRequires:	ipython
+%if %{with_html}
+BuildRequires:	python-docutils, python-sphinx
 BuildRequires:	texlive
+%endif
 
 %description
 matplotlib is a Python 2D plotting library which produces publication
@@ -126,11 +129,13 @@ find -name .svn | xargs rm -rf
 
 PYTHONDONTWRITEBYTECODE= %__python setup.py build
 
+%if %{with_html}
 # Need to make built matplotlib libs available for the sphinx extensions:
 pushd doc
 export PYTHONPATH=`dir -d ../build/lib.linux*`
 ./make.py html
 popd
+%endif
 
 %install
 %__rm -rf %{buildroot}
@@ -146,8 +151,6 @@ PYTHONDONTWRITEBYTECODE= %__python setup.py install --root=%{buildroot} --record
 %exclude %{py_platsitedir}/%{module}/backends/backend_gtkcairo.py*
 %exclude %{py_platsitedir}/%{module}/backends/_backend_gdk.so
 %exclude %{py_platsitedir}/%{module}/backends/_gtkagg.so
-%exclude %{py_platsitedir}/%{module}/backends/backend_qt.py*
-%exclude %{py_platsitedir}/%{module}/backends/backend_qtagg.py*
 %exclude %{py_platsitedir}/%{module}/backends/backend_qt4.py*
 %exclude %{py_platsitedir}/%{module}/backends/backend_qt4agg.py*
 %exclude %{py_platsitedir}/%{module}/backends/backend_svg.py*
@@ -191,8 +194,10 @@ PYTHONDONTWRITEBYTECODE= %__python setup.py install --root=%{buildroot} --record
 %{py_platsitedir}/%{module}/backends/backend_wxagg.py*
 
 %files doc
-%doc examples/ CHANGELOG README.txt TODO doc/build/html/*
-
+%doc examples/ CHANGELOG README.txt TODO
+%if %{with_html}
+doc/build/html/*
+%endif
 
 %changelog
 * Wed Feb 13 2013 pcpa <paulo.cesar.pereira.de.andrade@gmail.com> - 1.1.0-3
