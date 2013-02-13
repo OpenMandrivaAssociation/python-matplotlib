@@ -2,7 +2,7 @@
 
 Name:		python-%{module}
 Version:	1.1.0
-Release:	2
+Release:	3
 Summary:	Matlab-style 2D plotting package for Python
 Group:		Development/Python
 License:	Python license
@@ -16,8 +16,9 @@ Requires:	python-matplotlib-gtk = %{version}-%{release}
 BuildRequires:	python-setuptools
 BuildRequires:	python-numpy-devel >= 1.1.0
 BuildRequires:	libwxPythonGTK-devel, pygtk2.0-devel, cairo-devel
-BuildRequires:	tkinter, tcl-devel, tk-devel, freetype2-devel >= 2.1.7
-BuildRequires:	python-qt, python-qt4
+BuildRequires:	tkinter, tcl-devel, tk-devel
+BuildRequires:	python-qt4
+BuildRequires:	pkgconfig(freetype2)
 BuildRequires:	pkgconfig(libpng)
 BuildRequires:	zlib-devel
 BuildRequires:	python-configobj, python-dateutil, python-pytz
@@ -67,15 +68,6 @@ Requires:	%{name}-cairo = %{version}-%{release}
 
 %description gtk
 This package contains the GDK and GTK backends for matplotlib.
-
-%package qt
-Summary:	Qt backend for matplotlib
-Group:		Development/Python
-Requires:	%{name} = %{version}-%{release}
-Requires:	python-qt
-
-%description qt
-This package contains the Qt backend for matplotlib.
 
 %package qt4
 Summary:	Qt backend for matplotlib
@@ -181,10 +173,6 @@ PYTHONDONTWRITEBYTECODE= %__python setup.py install --root=%{buildroot} --record
 %{py_platsitedir}/%{module}/backends/_backend_gdk.so
 %{py_platsitedir}/%{module}/backends/_gtkagg.so
 
-%files qt
-%{py_platsitedir}/%{module}/backends/backend_qt.py*
-%{py_platsitedir}/%{module}/backends/backend_qtagg.py*
-
 %files qt4
 %{py_platsitedir}/%{module}/backends/backend_qt4.py*
 %{py_platsitedir}/%{module}/backends/backend_qt4agg.py*
@@ -206,6 +194,10 @@ PYTHONDONTWRITEBYTECODE= %__python setup.py install --root=%{buildroot} --record
 
 
 %changelog
+* Wed Feb 13 2013 pcpa <paulo.cesar.pereira.de.andrade@gmail.com> - 1.1.0-3
+- Rebuild with updated dependencies.
+- Drop qt < 4 backend.
+
 * Tue Oct 11 2011 Lev Givon <lev@mandriva.org> 1.1.0-1mdv2012.0
 + Revision: 704336
 - Update to 1.1.0.
