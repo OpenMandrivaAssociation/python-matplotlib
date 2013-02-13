@@ -24,6 +24,7 @@ BuildRequires:	zlib-devel
 BuildRequires:	python-configobj, python-dateutil, python-pytz
 BuildRequires:	python-docutils, python-sphinx
 BuildRequires:	ipython
+BuildRequires:	texlive
 
 %description
 matplotlib is a Python 2D plotting library which produces publication
