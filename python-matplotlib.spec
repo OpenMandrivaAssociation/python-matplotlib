@@ -2,18 +2,31 @@
 %define	module	matplotlib
 
 Name:		python-%{module}
-Version:	1.1.0
-Release:	3
-Summary:	Matlab-style 2D plotting package for Python
+Version:	1.2.0
+Release:	1
+Summary:	Python 2D plotting library
 Group:		Development/Python
 License:	Python license
 URL:		http://matplotlib.sourceforge.net/
-Source0:	http://downloads.sourceforge.net/project/%{module}/%{module}/%{module}-%{version}/%{module}-%{version}.tar.gz
+#Modified Sources to remove the one undistributable file
+#See generate-tarball.sh in fedora cvs repository for logic
+#sha1sum matplotlib-1.2.0-without-gpc.tar.gz
+#92ada4ef4e7374d67e46e30bfb08c3fed068d680  matplotlib-1.2.0-without-gpc.tar.gz
+Source0:        matplotlib-%{version}-without-gpc.tar.gz
+
+Patch0:		%{name}-noagg.patch
+Patch1:		%{name}-tk.patch
+# http://sourceforge.net/mailarchive/message.php?msg_id=30202451
+# https://github.com/matplotlib/matplotlib/pull/1666
+# https://bugzilla.redhat.com/show_bug.cgi?id=896182
+Patch2:		%{name}-fontconfig.patch
+
 %{py_requires -d}
-Patch0:		setupext-tk-include-0.99.1.2.patch
 Requires:	python-numpy >= 1.1.0
 Requires:	python-configobj, python-dateutil, python-pytz
 Requires:	python-matplotlib-gtk = %{version}-%{release}
+BuildRequires:	agg-devel
+BuildRequires:	python-parsing
 BuildRequires:	python-setuptools
 BuildRequires:	python-numpy-devel >= 1.1.0
 BuildRequires:	libwxPythonGTK-devel, pygtk2.0-devel, cairo-devel
@@ -28,13 +41,18 @@ BuildRequires:	ipython
 BuildRequires:	python-docutils, python-sphinx
 BuildRequires:	texlive
 %endif
+BuildRequires:	x11-server-xvfb
 
 %description
-matplotlib is a Python 2D plotting library which produces publication
+Matplotlib is a python 2D plotting library which produces publication
 quality figures in a variety of hardcopy formats and interactive
-environments across platforms. matplotlib can be used in Python
-scripts, the python and ipython shell (a la Matlab or Mathematica), web
-application servers, and various graphical user interface toolkits.
+environments across platforms. matplotlib can be used in python
+scripts, the python and ipython shell, web application servers, and
+six graphical user interface toolkits.
+
+Matplotlib tries to make easy things easy and hard things possible.
+You can generate plots, histograms, power spectra, bar charts,
+errorcharts, scatterplots, etc, with just a few lines of code.
 
 %package cairo
 Summary:	Cairo backend for matplotlib
@@ -119,29 +137,53 @@ This package contains documentation and sample code for matplotlib.
 
 %prep
 %setup -q -n %{module}-%{version}
-%patch0 -p0 -b .setupext
+
+# Remove bundled libraries
+rm -r agg24 lib/matplotlib/pyparsing_py?.py
+
+# Remove references to bundled libraries
+%patch0 -p1 -b .noagg
+sed -i -e s/matplotlib\.pyparsing_py./pyparsing/g lib/matplotlib/*.py
+
+# Correct tcl/tk detection
+%patch1 -p1 -b .tk
+sed -i -e 's|@@libdir@@|%{_libdir}|' setupext.py
+
+# Use fontconfig by default
+%patch2 -p1 -b .fontconfig
+
+chmod -x lib/matplotlib/mpl-data/images/*.svg
 
 %build
-find -name .svn | xargs rm -rf
-
-# Remove duplicate test data file:
-%__rm -f lib/matplotlib/tests/baseline_images/test_axes/shaped\ data.svg
-
-PYTHONDONTWRITEBYTECODE= %__python setup.py build
+PYTHONDONTWRITEBYTECODE= xvfb-run %{__python} setup.py build
 
 %if %{with_html}
 # Need to make built matplotlib libs available for the sphinx extensions:
 pushd doc
-export PYTHONPATH=`dir -d ../build/lib.linux*`
+export PYTHONPATH=`realpath ../build/lib.linux*`
 ./make.py html
 popd
 %endif
 
 %install
-%__rm -rf %{buildroot}
-PYTHONDONTWRITEBYTECODE= %__python setup.py install --root=%{buildroot} --record=FILELIST
+PYTHONDONTWRITEBYTECODE= %{__python} setup.py install --skip-build --root=%{buildroot}
+chmod +x $RPM_BUILD_ROOT%{python_sitearch}/matplotlib/dates.py
+rm -rf $RPM_BUILD_ROOT%{python_sitearch}/matplotlib/mpl-data/fonts
 
 %files -f FILELIST
+%doc README.txt
+%doc lib/dateutil_py2/LICENSE
+%doc lib/matplotlib/mpl-data/fonts/ttf/LICENSE_STIX
+%doc lib/pytz/LICENSE.txt
+%doc CHANGELOG
+%doc CXX
+%doc INSTALL
+%doc PKG-INFO
+%doc TODO
+%{python_sitearch}/*egg-info
+%{python_sitearch}/%{module}/
+%{python_sitearch}/mpl_toolkits/
+%{python_sitearch}/pylab.py*
 %exclude %{py_platsitedir}/%{module}/backends/backend_cairo.py*
 %exclude %{py_platsitedir}/%{module}/backends/backend_emf.py*
 %exclude %{py_platsitedir}/%{module}/backends/backend_fltkagg.py*
@@ -200,6 +242,9 @@ doc/build/html/*
 %endif
 
 %changelog
+* Thu Feb 14 2013 pcpa <paulo.cesar.pereira.de.andrade@gmail.com> - 1.2.0-1
+- Update to latest upstream release.
+
 * Wed Feb 13 2013 pcpa <paulo.cesar.pereira.de.andrade@gmail.com> - 1.1.0-3
 - Rebuild with updated dependencies.
 - Drop qt < 4 backend.
