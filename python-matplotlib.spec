@@ -170,7 +170,7 @@ PYTHONDONTWRITEBYTECODE= %{__python} setup.py install --skip-build --root=%{buil
 chmod +x $RPM_BUILD_ROOT%{python_sitearch}/matplotlib/dates.py
 rm -rf $RPM_BUILD_ROOT%{python_sitearch}/matplotlib/mpl-data/fonts
 
-%files -f FILELIST
+%files
 %doc README.txt
 %doc lib/dateutil_py2/LICENSE
 %doc lib/matplotlib/mpl-data/fonts/ttf/LICENSE_STIX
