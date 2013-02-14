@@ -25,7 +25,7 @@ Patch2:		%{name}-fontconfig.patch
 Requires:	python-numpy >= 1.1.0
 Requires:	python-configobj, python-dateutil, python-pytz
 Requires:	python-matplotlib-gtk = %{version}-%{release}
-BuildRequires:	agg-devel
+BuildRequires:	pkgconfig(libagg)
 BuildRequires:	python-parsing
 BuildRequires:	python-setuptools
 BuildRequires:	python-numpy-devel >= 1.1.0
