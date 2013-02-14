@@ -1,9 +1,9 @@
-%define with_html 0
+%define with_html 1
 %define	module	matplotlib
 
 Name:		python-%{module}
 Version:	1.2.0
-Release:	1
+Release:	2
 Summary:	Python 2D plotting library
 Group:		Development/Python
 License:	Python license
@@ -242,6 +242,9 @@ doc/build/html/*
 %endif
 
 %changelog
+* Thu Feb 14 2013 pcpa <paulo.cesar.pereira.de.andrade@gmail.com> - 1.2.0-2
+- Enable build of hmtl documentation.
+
 * Thu Feb 14 2013 pcpa <paulo.cesar.pereira.de.andrade@gmail.com> - 1.2.0-1
 - Update to latest upstream release.
 
