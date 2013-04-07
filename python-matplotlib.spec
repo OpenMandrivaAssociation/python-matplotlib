@@ -2,8 +2,8 @@
 %define	module	matplotlib
 
 Name:		python-%{module}
-Version:	1.2.0
-Release:	2
+Version:	1.2.1
+Release:	1
 Summary:	Python 2D plotting library
 Group:		Development/Python
 License:	Python license
