@@ -19,7 +19,7 @@ Patch1:		%{name}-tk.patch
 # http://sourceforge.net/mailarchive/message.php?msg_id=30202451
 # https://github.com/matplotlib/matplotlib/pull/1666
 # https://bugzilla.redhat.com/show_bug.cgi?id=896182
-Patch2:		%{name}-fontconfig.patch
+#Patch2:		%{name}-fontconfig.patch
 
 %{py_requires -d}
 Requires:	python-numpy >= 1.1.0
@@ -150,7 +150,7 @@ sed -i -e s/matplotlib\.pyparsing_py./pyparsing/g lib/matplotlib/*.py
 sed -i -e 's|@@libdir@@|%{_libdir}|' setupext.py
 
 # Use fontconfig by default
-%patch2 -p1 -b .fontconfig
+#%patch2 -p1 -b .fontconfig
 
 chmod -x lib/matplotlib/mpl-data/images/*.svg
 
