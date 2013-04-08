@@ -239,7 +239,7 @@ rm -rf $RPM_BUILD_ROOT%{python_sitearch}/matplotlib/mpl-data/fonts
 %files doc
 %doc examples/ CHANGELOG README.txt TODO
 %if %{with_html}
-doc/build/html/*
+%doc doc/build/html/*
 %endif
 
 %changelog
