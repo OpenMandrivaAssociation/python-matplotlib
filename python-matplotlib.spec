@@ -40,6 +40,7 @@ BuildRequires:	ipython
 %if %{with_html}
 BuildRequires:	python-docutils, python-sphinx
 BuildRequires:	texlive
+BuildRequires:	graphviz
 %endif
 BuildRequires:	x11-server-xvfb
 
