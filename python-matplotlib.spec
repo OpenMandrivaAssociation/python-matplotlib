@@ -41,7 +41,7 @@ BuildRequires:	texlive
 BuildRequires:	python-docutils
 BuildRequires:	python-sphinx
 %endif
-%{py_requires -d}
+BuildRequires:	python-devel
 Requires:	python-configobj
 Requires:	python-dateutil
 Requires:	python-matplotlib-gtk = %{version}-%{release}
