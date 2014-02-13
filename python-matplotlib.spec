@@ -21,7 +21,7 @@ Patch1:		%{name}-tk.patch
 # https://bugzilla.redhat.com/show_bug.cgi?id=896182
 #Patch2:		%{name}-fontconfig.patch
 
-%{py_requires -d}
+BuildRequires:  python-devel
 Requires:	python-numpy >= 1.1.0
 Requires:	python-configobj, python-dateutil, python-pytz
 Requires:	python-matplotlib-gtk = %{version}-%{release}
