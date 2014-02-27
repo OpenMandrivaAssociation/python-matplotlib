@@ -62,7 +62,6 @@ BuildRequires:	python-numpydoc
 BuildRequires:	python-devel
 Requires:	python-configobj
 Requires:	python-dateutil
-Requires:	python-matplotlib-gtk = %{version}-%{release}
 Requires:	python-numpy >= 1.1.0
 Requires:	python-pytz
 Requires:       %{name}-data = %{version}-%{release}
