@@ -1,10 +1,19 @@
-%define with_html 1
 %define	module	matplotlib
+
+%global with_html		0
+%global run_tests		0
+
+# the default backend; one of GTK GTKAgg GTKCairo GTK3Agg GTK3Cairo
+# CocoaAgg MacOSX Qt4Agg TkAgg WX WXAgg Agg Cairo GDK PS PDF SVG
+%global backend			TkAgg
+
+# https://fedorahosted.org/fpc/ticket/381
+%global with_bundled_fonts      1
 
 Summary:	Python 2D plotting library
 Name:		python-%{module}
-Version:	1.2.1
-Release:	5
+Version:	1.3.1
+Release:	1
 Group:		Development/Python
 License:	Python license
 Url:		http://matplotlib.sourceforge.net/
@@ -12,14 +21,22 @@ Url:		http://matplotlib.sourceforge.net/
 #See generate-tarball.sh in fedora cvs repository for logic
 #sha1sum matplotlib-1.2.0-without-gpc.tar.gz
 #92ada4ef4e7374d67e46e30bfb08c3fed068d680  matplotlib-1.2.0-without-gpc.tar.gz
-Source0:	matplotlib-%{version}-without-gpc.tar.gz
-Patch0:	%{name}-noagg.patch
-Patch1:	%{name}-tk.patch
+Source0:	matplotlib-%{version}-without-gpc.tar.xz
+Source1:        setup.cfg
+
+Patch0:		%{name}-noagg.patch
+Patch1:		%{name}-system-cxx.patch
+Patch2: 	20_matplotlibrc_path_search_fix.patch
+Patch3: 	40_bts608939_draw_markers_description.patch
+Patch4: 	50_bts608942_spaces_in_param_args.patch
+Patch5: 	60_deal_with_no_writable_dirs.patch
+Patch6: 	70_bts720549_try_StayPuft_for_xkcd.patch
 
 BuildRequires:	python-parsing
 BuildRequires:	python-setuptools
 BuildRequires:	ipython
 BuildRequires:	python-configobj
+BuildRequires:	python-cxx-devel
 BuildRequires:	python-dateutil
 BuildRequires:	python-pytz
 BuildRequires:	python-qt4
@@ -40,6 +57,7 @@ BuildRequires:	graphviz
 BuildRequires:	texlive
 BuildRequires:	python-docutils
 BuildRequires:	python-sphinx
+BuildRequires:	python-numpydoc
 %endif
 BuildRequires:	python-devel
 Requires:	python-configobj
@@ -47,6 +65,16 @@ Requires:	python-dateutil
 Requires:	python-matplotlib-gtk = %{version}-%{release}
 Requires:	python-numpy >= 1.1.0
 Requires:	python-pytz
+Requires:       %{name}-data = %{version}-%{release}
+
+# GTKAgg does not require extra subpackages, but does not work with python3
+%if "%{backend}" == "TkAgg"
+Requires:	%{name}-tk%{?_isa} = %{version}-%{release}
+%else
+%  if "%{backend}" == "Qt4Agg"
+Requires:	%{name}-qt4%{?_isa} = %{version}-%{release}
+%  endif
+%endif
 
 %description
 Matplotlib is a python 2D plotting library which produces publication
@@ -67,24 +95,6 @@ Requires:	python-cairo >= 1.2.0
 
 %description cairo
 This package contains the Cairo backend for matplotlib.
-
-%package emf
-Summary:	EMF backend for matplotlib
-Group:		Development/Python
-Requires:	%{name} = %{version}-%{release}
-Requires:	python-pyemf
-
-%description emf
-This package contains the EMF backend for matplotlib.
-
-%package fltk
-Summary:	FLTK backend for matplotlib
-Group:		Development/Python
-Requires:	%{name} = %{version}-%{release}
-Requires:	python-pyfltk
-
-%description fltk
-This package contains the FLTK backend for matplotlib.
 
 %package gtk
 Summary:	GDK and GTK backends for matplotlib
@@ -140,55 +150,116 @@ BuildArch:	noarch
 %description doc
 This package contains documentation and sample code for matplotlib.
 
+%package        data
+Summary:        Data used by python-matplotlib
+%if %{with_bundled_fonts}
+Requires:       %{name}-data-fonts = %{version}-%{release}
+%endif
+BuildArch:      noarch
+
+%description    data
+%{summary}
+
+%if %{with_bundled_fonts}
+%package        data-fonts
+Summary:        Fonts used by python-matplotlib
+Requires:       %{name}-data = %{version}-%{release}
+BuildArch:      noarch
+
+%description    data-fonts
+%{summary}
+%endif
+
 %prep
 %setup -q -n %{module}-%{version}
 
+# Copy setup.cfg to the builddir
+cp %{SOURCE1} .
+sed -i 's/\(backend = \).*/\1%{backend}/' setup.cfg
+
+%if !%{with_bundled_fonts}
+# Use fontconfig by default
+sed -i 's/\(USE_FONTCONFIG = \)False/\1True/' lib/matplotlib/font_manager.py
+%endif
+
 # Remove bundled libraries
-rm -r agg24 lib/matplotlib/pyparsing_py?.py
+rm -r agg24 CXX
 
 # Remove references to bundled libraries
-%patch0 -p1 -b .noagg
-sed -i -e s/matplotlib\.pyparsing_py./pyparsing/g lib/matplotlib/*.py
-
-# Correct tcl/tk detection
-%patch1 -p1 -b .tk
-sed -i -e 's|@@libdir@@|%{_libdir}|' setupext.py
+%patch0 -b .noagg
+%patch1 -b .cxx
+%patch2 -p1
+%patch3 -p1
+%patch4 -p1
+%patch5 -p1
+%patch6 -p1
 
 chmod -x lib/matplotlib/mpl-data/images/*.svg
 
 %build
-PYTHONDONTWRITEBYTECODE= xvfb-run %{__python} setup.py build
+PYTHONDONTWRITEBYTECODE= \
+MPLCONFIGDIR=$PWD \
+MATPLOTLIBDATA=$PWD/lib/matplotlib/mpl-data \
+    xvfb-run %{__python} setup.py build
 
 %if %{with_html}
 # Need to make built matplotlib libs available for the sphinx extensions:
 pushd doc
-export PYTHONPATH=`realpath ../build/lib.linux*`
-./make.py html
+    MPLCONFIGDIR=$PWD/.. \
+    MATPLOTLIBDATA=$PWD/../lib/matplotlib/mpl-data \
+    PYTHONPATH=`realpath ../build/lib.linux*` \
+        %{__python} make.py html
 popd
 %endif
+# Ensure all example files are non-executable so that the -doc
+# package doesn't drag in dependencies
+find examples -name '*.py' -exec chmod a-x '{}' \;
 
 %install
-PYTHONDONTWRITEBYTECODE= %{__python} setup.py install --skip-build --root=%{buildroot}
+PYTHONDONTWRITEBYTECODE= \
+MPLCONFIGDIR=$PWD \
+MATPLOTLIBDATA=$PWD/lib/matplotlib/mpl-data/ \
+    %{__python} setup.py install --skip-build --root=%{buildroot}
 chmod +x %{buildroot}%{python_sitearch}/matplotlib/dates.py
-rm -rf %{buildroot}%{python_sitearch}/matplotlib/mpl-data/fonts
+mkdir -p %{buildroot}%{_sysconfdir} %{buildroot}%{_datadir}/matplotlib
+mv %{buildroot}%{python_sitearch}/matplotlib/mpl-data/matplotlibrc \
+   %{buildroot}%{_sysconfdir}
+mv %{buildroot}%{python_sitearch}/matplotlib/mpl-data \
+   %{buildroot}%{_datadir}/matplotlib
+%if !%{with_bundled_fonts}
+rm -rf %{buildroot}%{_datadir}/matplotlib/mpl-data/fonts
+%endif
+
+%if %{run_tests}
+%check
+# This should match the default backend
+echo "backend      : %{backend}" > matplotlibrc
+MPLCONFIGDIR=$PWD \
+MATPLOTLIBDATA=$RPM_BUILD_ROOT%{_datadir}/matplotlib/mpl-data \
+PYTHONPATH=$RPM_BUILD_ROOT%{python_sitearch} \
+     xvfb-run %{__python} -c "import matplotlib; matplotlib.test()"
+
+%if %{with_python3}
+MPLCONFIGDIR=$PWD \
+MATPLOTLIBDATA=$RPM_BUILD_ROOT%{_datadir}/matplotlib/mpl-data \
+PYTHONPATH=$RPM_BUILD_ROOT%{python3_sitearch} \
+     xvfb-run %{__python3} -c "import matplotlib; matplotlib.test()"
+%endif
+%endif # run_tests
 
 %files
-%doc README.txt
-%doc lib/dateutil_py2/LICENSE
-%doc lib/matplotlib/mpl-data/fonts/ttf/LICENSE_STIX
-%doc lib/pytz/LICENSE.txt
+%doc README.rst
+%doc LICENSE/
 %doc CHANGELOG
-%doc CXX
 %doc INSTALL
 %doc PKG-INFO
 %doc TODO
 %{python_sitearch}/*egg-info
+%{python_sitearch}/matplotlib-*-nspkg.pth
 %{python_sitearch}/%{module}/
 %{python_sitearch}/mpl_toolkits/
 %{python_sitearch}/pylab.py*
 %exclude %{py_platsitedir}/%{module}/backends/backend_cairo.py*
-%exclude %{py_platsitedir}/%{module}/backends/backend_emf.py*
-%exclude %{py_platsitedir}/%{module}/backends/backend_fltkagg.py*
 %exclude %{py_platsitedir}/%{module}/backends/backend_gdk.py*
 %exclude %{py_platsitedir}/%{module}/backends/backend_gtk.py*
 %exclude %{py_platsitedir}/%{module}/backends/backend_gtkagg.py*
@@ -206,12 +277,6 @@ rm -rf %{buildroot}%{python_sitearch}/matplotlib/mpl-data/fonts
 
 %files cairo
 %{py_platsitedir}/%{module}/backends/backend_cairo.py*
-
-%files emf
-%{py_platsitedir}/%{module}/backends/backend_emf.py*
-
-%files fltk
-%{py_platsitedir}/%{module}/backends/backend_fltkagg.py*
 
 %files gtk
 %{py_platsitedir}/%{module}/backends/backend_gdk.py*
@@ -238,8 +303,19 @@ rm -rf %{buildroot}%{python_sitearch}/matplotlib/mpl-data/fonts
 %{py_platsitedir}/%{module}/backends/backend_wxagg.py*
 
 %files doc
-%doc examples/ CHANGELOG README.txt TODO
+%doc examples/
 %if %{with_html}
 %doc doc/build/html/*
 %endif
 
+%files data
+%{_sysconfdir}/matplotlibrc
+%{_datadir}/matplotlib/mpl-data/
+%if %{with_bundled_fonts}
+%exclude %{_datadir}/matplotlib/mpl-data/fonts/
+%endif
+
+%if %{with_bundled_fonts}
+%files data-fonts
+%{_datadir}/matplotlib/mpl-data/fonts/
+%endif
