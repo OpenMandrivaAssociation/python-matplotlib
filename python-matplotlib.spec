@@ -1,6 +1,6 @@
-%define	module	matplotlib
+%define	module			matplotlib
 
-%global with_html		0
+%global with_html		1
 %global run_tests		0
 
 # the default backend; one of GTK GTKAgg GTKCairo GTK3Agg GTK3Cairo
@@ -13,7 +13,7 @@
 Summary:	Python 2D plotting library
 Name:		python-%{module}
 Version:	1.3.1
-Release:	1
+Release:	2
 Group:		Development/Python
 License:	Python license
 Url:		http://matplotlib.sourceforge.net/
