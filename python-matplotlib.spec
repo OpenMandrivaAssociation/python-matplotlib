@@ -37,6 +37,7 @@ BuildRequires:	python-cxx-devel
 BuildRequires:	python-dateutil
 BuildRequires:	python-pytz
 BuildRequires:	python-qt4
+BuildRequires:	qhull-devel
 BuildRequires:	tkinter
 BuildRequires:	x11-server-xvfb
 BuildRequires:	python-numpy-devel >= 1.1.0
