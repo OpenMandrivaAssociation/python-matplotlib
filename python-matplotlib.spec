@@ -50,7 +50,7 @@ BuildRequires:	pkgconfig(tk)
 BuildRequires:	pkgconfig(zlib)
 %if %{with_html}
 BuildRequires:	graphviz
-#BuildRequires:	texlive
+BuildRequires:	texlive
 BuildRequires:	python-docutils
 BuildRequires:	python-sphinx
 BuildRequires:	python-numpydoc
