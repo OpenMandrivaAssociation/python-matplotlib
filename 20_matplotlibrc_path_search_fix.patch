@@ -19,7 +19,7 @@ Author: Sandro Tosi <morph@debian.org>
      # so need to try something known to be in matplotlib, not basemap
      import matplotlib.afm
 @@ -727,7 +729,7 @@ def matplotlib_fname():
-                     _get_xdg_config_dir())
+                     home, '.matplotlib', 'matplotlibrc')
              return fname
  
 -    path = get_data_path()  # guaranteed to exist or raise

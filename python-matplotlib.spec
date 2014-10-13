@@ -1,10 +1,10 @@
 %define	module			matplotlib
 
-%global with_html		1
+%global with_html		0
 %global run_tests		0
 
 # the default backend; one of GTK GTKAgg GTKCairo GTK3Agg GTK3Cairo
-# CocoaAgg MacOSX Qt4Agg TkAgg WX WXAgg Agg Cairo GDK PS PDF SVG
+# CocoaAgg MacOSX Qt4Agg TkAgg Agg Cairo GDK PS PDF SVG
 %global backend			TkAgg
 
 # https://fedorahosted.org/fpc/ticket/381
@@ -12,8 +12,8 @@
 
 Summary:	Python 2D plotting library
 Name:		python-%{module}
-Version:	1.3.1
-Release:	4
+Version:	1.4.0
+Release:	1
 Group:		Development/Python
 License:	Python license
 Url:		http://matplotlib.sourceforge.net/
@@ -23,13 +23,10 @@ Url:		http://matplotlib.sourceforge.net/
 #92ada4ef4e7374d67e46e30bfb08c3fed068d680  matplotlib-1.2.0-without-gpc.tar.gz
 Source0:	matplotlib-%{version}-without-gpc.tar.xz
 Source1:        setup.cfg
-
-Patch0:		%{name}-noagg.patch
+Patch0:		python-matplotlib-aggdir.patch
 Patch1:		%{name}-system-cxx.patch
 Patch2: 	20_matplotlibrc_path_search_fix.patch
 Patch3: 	40_bts608939_draw_markers_description.patch
-Patch4: 	50_bts608942_spaces_in_param_args.patch
-Patch5: 	60_deal_with_no_writable_dirs.patch
 Patch6: 	70_bts720549_try_StayPuft_for_xkcd.patch
 
 BuildRequires:	python-parsing
@@ -43,18 +40,16 @@ BuildRequires:	python-qt4
 BuildRequires:	tkinter
 BuildRequires:	x11-server-xvfb
 BuildRequires:	python-numpy-devel >= 1.1.0
-BuildRequires:	wxPythonGTK-devel
 BuildRequires:	pkgconfig(cairo)
 BuildRequires:	pkgconfig(freetype2)
 BuildRequires:	pkgconfig(libagg)
 BuildRequires:	pkgconfig(libpng)
-BuildRequires:	pkgconfig(pygtk-2.0)
 BuildRequires:	pkgconfig(tcl)
 BuildRequires:	pkgconfig(tk)
 BuildRequires:	pkgconfig(zlib)
 %if %{with_html}
 BuildRequires:	graphviz
-BuildRequires:	texlive
+#BuildRequires:	texlive
 BuildRequires:	python-docutils
 BuildRequires:	python-sphinx
 BuildRequires:	python-numpydoc
@@ -96,14 +91,15 @@ Requires:	python-cairo >= 1.2.0
 This package contains the Cairo backend for matplotlib.
 
 %package gtk
-Summary:	GDK and GTK backends for matplotlib
-Group:		Development/Python
-Requires:	%{name} = %{version}-%{release}
-Requires:	pygtk2.0 >= 2.4.0
-Requires:	%{name}-cairo = %{version}-%{release}
+Summary:       GDK and GTK backends for matplotlib
+Group:         Development/Python
+Requires:      %{name} = %{version}-%{release}
+Requires:      pygtk2.0 >= 2.4.0
+Requires:      %{name}-cairo = %{version}-%{release}
 
 %description gtk
 This package contains the GDK and GTK backends for matplotlib.
+
 
 %package qt4
 Summary:	Qt backend for matplotlib
@@ -131,15 +127,6 @@ Requires:	tkinter
 
 %description tk
 This package contains the Tk backend for matplotlib.
-
-%package wx
-Summary:	wxPython backend for matplotlib
-Group:		Development/Python
-Requires:	%{name} = %{version}-%{release}
-Requires:	wxPython
-
-%description wx
-This package contains the wxPython backend for matplotlib.
 
 %package doc
 Summary:	Documentation for matplotlib
@@ -182,16 +169,9 @@ sed -i 's/\(USE_FONTCONFIG = \)False/\1True/' lib/matplotlib/font_manager.py
 %endif
 
 # Remove bundled libraries
-rm -r agg24 CXX
+rm -r extern/agg24 extern/CXX
 
-# Remove references to bundled libraries
-%patch0 -b .noagg
-%patch1 -b .cxx
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
+%apply_patches
 
 chmod -x lib/matplotlib/mpl-data/images/*.svg
 
@@ -228,6 +208,7 @@ mv %{buildroot}%{python_sitearch}/matplotlib/mpl-data \
 %if !%{with_bundled_fonts}
 rm -rf %{buildroot}%{_datadir}/matplotlib/mpl-data/fonts
 %endif
+rm -rf %{buildroot}%{python_sitearch}/__pycache__
 
 %if %{run_tests}
 %check
@@ -252,38 +233,22 @@ PYTHONPATH=$RPM_BUILD_ROOT%{python3_sitearch} \
 %doc CHANGELOG
 %doc INSTALL
 %doc PKG-INFO
-%doc TODO
 %{python_sitearch}/*egg-info
 %{python_sitearch}/matplotlib-*-nspkg.pth
 %{python_sitearch}/%{module}/
 %{python_sitearch}/mpl_toolkits/
 %{python_sitearch}/pylab.py*
+%{python_sitearch}/freetype2.*.so
 %exclude %{py_platsitedir}/%{module}/backends/backend_cairo.py*
-%exclude %{py_platsitedir}/%{module}/backends/backend_gdk.py*
-%exclude %{py_platsitedir}/%{module}/backends/backend_gtk.py*
-%exclude %{py_platsitedir}/%{module}/backends/backend_gtkagg.py*
-%exclude %{py_platsitedir}/%{module}/backends/backend_gtkcairo.py*
-%exclude %{py_platsitedir}/%{module}/backends/_backend_gdk.so
-%exclude %{py_platsitedir}/%{module}/backends/_gtkagg.so
 %exclude %{py_platsitedir}/%{module}/backends/backend_qt4.py*
 %exclude %{py_platsitedir}/%{module}/backends/backend_qt4agg.py*
 %exclude %{py_platsitedir}/%{module}/backends/backend_svg.py*
 %exclude %{py_platsitedir}/%{module}/backends/backend_tkagg.py*
 %exclude %{py_platsitedir}/%{module}/backends/tkagg.py*
-%exclude %{py_platsitedir}/%{module}/backends/_tkagg.so
-%exclude %{py_platsitedir}/%{module}/backends/backend_wx.py*
-%exclude %{py_platsitedir}/%{module}/backends/backend_wxagg.py*
+%exclude %{py_platsitedir}/%{module}/backends/_tkagg*.so
 
 %files cairo
 %{py_platsitedir}/%{module}/backends/backend_cairo.py*
-
-%files gtk
-%{py_platsitedir}/%{module}/backends/backend_gdk.py*
-%{py_platsitedir}/%{module}/backends/backend_gtk.py*
-%{py_platsitedir}/%{module}/backends/backend_gtkagg.py*
-%{py_platsitedir}/%{module}/backends/backend_gtkcairo.py*
-%{py_platsitedir}/%{module}/backends/_backend_gdk.so
-%{py_platsitedir}/%{module}/backends/_gtkagg.so
 
 %files qt4
 %{py_platsitedir}/%{module}/backends/backend_qt4.py*
@@ -295,11 +260,7 @@ PYTHONPATH=$RPM_BUILD_ROOT%{python3_sitearch} \
 %files tk
 %{py_platsitedir}/%{module}/backends/backend_tkagg.py*
 %{py_platsitedir}/%{module}/backends/tkagg.py*
-%{py_platsitedir}/%{module}/backends/_tkagg.so
-
-%files wx
-%{py_platsitedir}/%{module}/backends/backend_wx.py*
-%{py_platsitedir}/%{module}/backends/backend_wxagg.py*
+%{py_platsitedir}/%{module}/backends/_tkagg*.so
 
 %files doc
 %doc examples/
