@@ -3,7 +3,7 @@
 
 Name:		python-%{module}
 Version:	1.2.1
-Release:	2
+Release:	2.1
 Summary:	Python 2D plotting library
 Group:		Development/Python
 License:	Python license
@@ -105,7 +105,6 @@ This package contains the Qt4 backend for matplotlib.
 Summary:	SVG backend for matplotlib
 Group:		Development/Python
 Requires:	%{name} = %{version}-%{release}
-Requires:	python-pyxml
 
 %description svg
 This package contains the SVG backend for matplotlib.
