@@ -1,19 +1,19 @@
-%define	module			matplotlib
+%define module matplotlib
 
-%global with_html		0
-%global run_tests		0
+%global with_html 0
+%global run_tests 0
 
 # the default backend; one of GTK GTKAgg GTKCairo GTK3Agg GTK3Cairo
 # CocoaAgg MacOSX Qt4Agg TkAgg Agg Cairo GDK PS PDF SVG
-%global backend			TkAgg
+%global backend TkAgg
 
 # https://fedorahosted.org/fpc/ticket/381
-%global with_bundled_fonts      1
+%global with_bundled_fonts 1
 
 Summary:	Python 2D plotting library
 Name:		python-%{module}
 Version:	1.4.0
-Release:	1
+Release:	2
 Group:		Development/Python
 License:	Python license
 Url:		http://matplotlib.sourceforge.net/
@@ -22,12 +22,12 @@ Url:		http://matplotlib.sourceforge.net/
 #sha1sum matplotlib-1.2.0-without-gpc.tar.gz
 #92ada4ef4e7374d67e46e30bfb08c3fed068d680  matplotlib-1.2.0-without-gpc.tar.gz
 Source0:	matplotlib-%{version}-without-gpc.tar.xz
-Source1:        setup.cfg
+Source1:	setup.cfg
 Patch0:		python-matplotlib-aggdir.patch
 Patch1:		%{name}-system-cxx.patch
-Patch2: 	20_matplotlibrc_path_search_fix.patch
-Patch3: 	40_bts608939_draw_markers_description.patch
-Patch6: 	70_bts720549_try_StayPuft_for_xkcd.patch
+Patch2:		20_matplotlibrc_path_search_fix.patch
+Patch3:		40_bts608939_draw_markers_description.patch
+Patch6:		70_bts720549_try_StayPuft_for_xkcd.patch
 
 BuildRequires:	python-parsing
 BuildRequires:	python-setuptools
@@ -60,7 +60,7 @@ Requires:	python-configobj
 Requires:	python-dateutil
 Requires:	python-numpy >= 1.1.0
 Requires:	python-pytz
-Requires:       %{name}-data = %{version}-%{release}
+Requires:	%{name}-data = %{version}-%{release}
 
 # GTKAgg does not require extra subpackages, but does not work with python3
 %if "%{backend}" == "TkAgg"
@@ -115,7 +115,6 @@ This package contains the Qt4 backend for matplotlib.
 Summary:	SVG backend for matplotlib
 Group:		Development/Python
 Requires:	%{name} = %{version}-%{release}
-Requires:	python-pyxml
 
 %description svg
 This package contains the SVG backend for matplotlib.
