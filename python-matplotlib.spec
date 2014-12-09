@@ -5,23 +5,19 @@
 
 # the default backend; one of GTK GTKAgg GTKCairo GTK3Agg GTK3Cairo
 # CocoaAgg MacOSX Qt4Agg TkAgg Agg Cairo GDK PS PDF SVG
-%global backend TkAgg
+%global backend Qt4Agg
 
 # https://fedorahosted.org/fpc/ticket/381
 %global with_bundled_fonts 1
 
 Summary:	Python 2D plotting library
 Name:		python-%{module}
-Version:	1.4.0
-Release:	3
+Version:	1.4.2
+Release:	1
 Group:		Development/Python
 License:	Python license
 Url:		http://matplotlib.sourceforge.net/
-#Modified Sources to remove the one undistributable file
-#See generate-tarball.sh in fedora cvs repository for logic
-#sha1sum matplotlib-1.2.0-without-gpc.tar.gz
-#92ada4ef4e7374d67e46e30bfb08c3fed068d680  matplotlib-1.2.0-without-gpc.tar.gz
-Source0:	matplotlib-%{version}-without-gpc.tar.xz
+Source0:	https://downloads.sourceforge.net/project/matplotlib/matplotlib/matplotlib-%{version}/matplotlib-%{version}.tar.gz
 Source1:	setup.cfg
 Patch0:		python-matplotlib-aggdir.patch
 Patch1:		%{name}-system-cxx.patch
@@ -238,7 +234,6 @@ PYTHONPATH=$RPM_BUILD_ROOT%{python3_sitearch} \
 %{python_sitearch}/%{module}/
 %{python_sitearch}/mpl_toolkits/
 %{python_sitearch}/pylab.py*
-%{python_sitearch}/freetype2.*.so
 %exclude %{py_platsitedir}/%{module}/backends/backend_cairo.py*
 %exclude %{py_platsitedir}/%{module}/backends/backend_qt4.py*
 %exclude %{py_platsitedir}/%{module}/backends/backend_qt4agg.py*

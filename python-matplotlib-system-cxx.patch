@@ -1,15 +1,18 @@
---- matplotlib-1.4.0/setupext.py.orig	2014-10-13 06:38:28.625252442 +0100
-+++ matplotlib-1.4.0/setupext.py	2014-10-13 06:38:50.055250863 +0100
-@@ -828,13 +828,6 @@
+--- matplotlib-1.4.2/setupext.py.0001~	2014-12-08 22:09:12.813287271 +0100
++++ matplotlib-1.4.2/setupext.py	2014-12-08 22:11:10.723813186 +0100
+@@ -841,16 +841,6 @@ class CXX(SetupPackage):
      name = 'pycxx'
  
      def check(self):
 -        if PY3:
 -            # There is no version of PyCXX in the wild that will work
--            # with Python 3.x
+-            # with Python 3.x and matplotlib, since they lack support
+-            # for the buffer object.
 -            self.__class__.found_external = False
--            return ("Official versions of PyCXX are not compatible with "
--                    "Python 3.x.  Using local copy")
+-            return ("Official versions of PyCXX are not compatible "
+-                    "with matplotlib on Python 3.x, since they lack "
+-                    "support for the buffer object.  Using local "
+-                    "copy")
 -
          self.__class__.found_external = True
          old_stdout = sys.stdout
