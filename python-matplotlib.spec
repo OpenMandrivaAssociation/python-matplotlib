@@ -63,9 +63,9 @@ Requires:	%{name}-data = %{version}-%{release}
 %if "%{backend}" == "TkAgg"
 Requires:	%{name}-tk%{?_isa} = %{version}-%{release}
 %else
-%  if "%{backend}" == "Qt4Agg"
+%if "%{backend}" == "Qt4Agg"
 Requires:	%{name}-qt4%{?_isa} = %{version}-%{release}
-%  endif
+%endif
 %endif
 
 %description
