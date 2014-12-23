@@ -160,6 +160,7 @@ Group:		Development/Python
 BuildRequires:	python2-pytz
 BuildRequires:	tkinter2
 BuildRequires:	python2-numpy-devel >= 1.1.0
+BuildRequires:	python2-cxx-devel
 
 %description -n python2-matplotlib
 Python 2.x version of matplotlib
