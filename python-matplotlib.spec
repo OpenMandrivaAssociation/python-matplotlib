@@ -45,6 +45,7 @@ BuildRequires:	pkgconfig(libpng)
 BuildRequires:	pkgconfig(tcl)
 BuildRequires:	pkgconfig(tk)
 BuildRequires:	pkgconfig(zlib)
+BuildRequires:	pkgconfig(python3)
 %if %{with_html}
 BuildRequires:	graphviz
 BuildRequires:	texlive
@@ -52,7 +53,6 @@ BuildRequires:	python-docutils
 BuildRequires:	python-sphinx
 BuildRequires:	python-numpydoc
 %endif
-BuildRequires:	python-devel
 Requires:	python-configobj
 Requires:	python-dateutil
 Requires:	python-numpy >= 1.1.0
