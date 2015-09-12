@@ -14,7 +14,7 @@
 Summary:	Python 2D plotting library
 Name:		python-%{module}
 Version:	1.4.2
-Release:	2
+Release:	3
 Group:		Development/Python
 License:	Python license
 Url:		http://matplotlib.sourceforge.net/
