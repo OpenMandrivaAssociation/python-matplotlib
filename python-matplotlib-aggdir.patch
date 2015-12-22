@@ -1,25 +1,26 @@
 --- matplotlib-1.4.0/setupext.py.o	2014-10-13 09:36:35.558143062 +0100
 +++ matplotlib-1.4.0/setupext.py	2014-10-13 09:42:56.881114968 +0100
-@@ -897,22 +897,7 @@
+@@ -897,23 +897,7 @@
              return str(e) + ' Using local copy.'
  
-     def add_flags(self, ext):
+     def add_flags(self, ext, add_sources=True):
 -        if self.found_external:
 -            pkg_config.setup_extension(ext, 'libagg')
 -        else:
--            ext.include_dirs.append('extern/agg24/include')
--            agg_sources = [
--                'agg_bezier_arc.cpp',
--                'agg_curves.cpp',
--                'agg_image_filters.cpp',
--                'agg_trans_affine.cpp',
--                'agg_vcgen_contour.cpp',
--                'agg_vcgen_dash.cpp',
--                'agg_vcgen_stroke.cpp',
--                'agg_vpgen_segmentator.cpp'
--                ]
--            ext.sources.extend(
--                os.path.join('extern', 'agg24', 'src', x) for x in agg_sources)
+-            ext.include_dirs.append('extern/agg24-svn/include')
+-            if add_sources:
+-                agg_sources = [
+-                    'agg_bezier_arc.cpp',
+-                    'agg_curves.cpp',
+-                    'agg_image_filters.cpp',
+-                    'agg_trans_affine.cpp',
+-                    'agg_vcgen_contour.cpp',
+-                    'agg_vcgen_dash.cpp',
+-                    'agg_vcgen_stroke.cpp',
+-                    'agg_vpgen_segmentator.cpp'
+-                    ]
+-                ext.sources.extend(
+-                    os.path.join('extern', 'agg24-svn', 'src', x) for x in agg_sources)
 +        pkg_config.setup_extension(ext, 'libagg', default_include_dirs=["/usr/include/agg2"])
  
  

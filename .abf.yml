@@ -1,2 +1,4 @@
-sources:
+removed_sources:
   matplotlib-1.4.2.tar.gz: 242c57ddae808b1869cad4b08bb0973c513e12f8
+sources:
+  matplotlib-1.5.0.tar.gz: 22d1418fc7cfa5c7fbec30662f54356712626a3b

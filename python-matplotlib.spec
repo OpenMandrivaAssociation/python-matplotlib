@@ -13,18 +13,14 @@
 
 Summary:	Python 2D plotting library
 Name:		python-%{module}
-Version:	1.4.2
-Release:	3
+Version:	1.5.0
+Release:	1
 Group:		Development/Python
 License:	Python license
 Url:		http://matplotlib.sourceforge.net/
 Source0:	https://downloads.sourceforge.net/project/matplotlib/matplotlib/matplotlib-%{version}/matplotlib-%{version}.tar.gz
 Source1:	setup.cfg
-Patch0:		python-matplotlib-aggdir.patch
-Patch1:		%{name}-system-cxx.patch
-Patch2:		20_matplotlibrc_path_search_fix.patch
-Patch3:		40_bts608939_draw_markers_description.patch
-Patch6:		70_bts720549_try_StayPuft_for_xkcd.patch
+#Patch0:		python-matplotlib-aggdir.patch
 
 BuildRequires:	python-parsing
 BuildRequires:	python-setuptools
@@ -40,7 +36,7 @@ BuildRequires:	x11-server-xvfb
 BuildRequires:	python-numpy-devel >= 1.1.0
 BuildRequires:	pkgconfig(cairo)
 BuildRequires:	pkgconfig(freetype2)
-BuildRequires:	pkgconfig(libagg)
+#BuildRequires:	pkgconfig(libagg)
 BuildRequires:	pkgconfig(libpng)
 BuildRequires:	pkgconfig(tcl)
 BuildRequires:	pkgconfig(tk)
@@ -226,7 +222,7 @@ sed -i 's/\(USE_FONTCONFIG = \)False/\1True/' lib/matplotlib/font_manager.py
 %endif
 
 # Remove bundled libraries
-rm -r extern/agg24 extern/CXX
+#rm -r extern/agg24-svn 
 
 %apply_patches
 
@@ -306,7 +302,6 @@ PYTHONPATH=$RPM_BUILD_ROOT%{python_sitearch} \
 %doc LICENSE/
 %doc CHANGELOG
 %doc INSTALL
-%doc PKG-INFO
 %{python_sitearch}/*egg-info
 %{python_sitearch}/matplotlib-*-nspkg.pth
 %{python_sitearch}/%{module}/
@@ -359,7 +354,6 @@ PYTHONPATH=$RPM_BUILD_ROOT%{python_sitearch} \
 %doc LICENSE/
 %doc CHANGELOG
 %doc INSTALL
-%doc PKG-INFO
 %{python2_sitearch}/*egg-info
 %{python2_sitearch}/matplotlib-*-nspkg.pth
 %{python2_sitearch}/%{module}/
