@@ -14,7 +14,7 @@
 Summary:	Python 2D plotting library
 Name:		python-%{module}
 Version:	1.5.0
-Release:	1
+Release:	2
 Group:		Development/Python
 License:	Python license
 Url:		http://matplotlib.sourceforge.net/
@@ -33,7 +33,6 @@ BuildRequires:	python-qt5
 BuildRequires:	python-qt5-devel
 BuildRequires:	qhull-devel
 BuildRequires:	tkinter
-BuildRequires:	x11-server-xvfb
 BuildRequires:	python-numpy-devel >= 1.1.0
 BuildRequires:	pkgconfig(cairo)
 BuildRequires:	pkgconfig(freetype2)
@@ -238,14 +237,14 @@ cp -a `ls |grep -v PY2` PY2/
 PYTHONDONTWRITEBYTECODE=true \
 MPLCONFIGDIR=$PWD \
 MATPLOTLIBDATA=$PWD/lib/matplotlib/mpl-data \
-    xvfb-run python setup.py build
+    python setup.py build
 
 %if %{with python2}
 cd PY2
 PYTHONDONTWRITEBYTECODE=true \
 MPLCONFIGDIR=$PWD \
 MATPLOTLIBDATA=$PWD/lib/matplotlib/mpl-data \
-    xvfb-run python2 setup.py build
+    python2 setup.py build
 cd ..
 %endif
 
@@ -295,7 +294,7 @@ echo "backend      : %{backend}" > matplotlibrc
 MPLCONFIGDIR=$PWD \
 MATPLOTLIBDATA=$RPM_BUILD_ROOT%{_datadir}/matplotlib/mpl-data \
 PYTHONPATH=$RPM_BUILD_ROOT%{python_sitearch} \
-     xvfb-run %{__python} -c "import matplotlib; matplotlib.test()"
+     %{__python} -c "import matplotlib; matplotlib.test()"
 %endif # run_tests
 
 %files
@@ -356,6 +355,7 @@ PYTHONPATH=$RPM_BUILD_ROOT%{python_sitearch} \
 %doc CHANGELOG
 %doc INSTALL
 %{python2_sitearch}/*egg-info
+%{python2_sitearch}/matplotlib-*-nspkg.pth
 %{python2_sitearch}/%{module}/
 %{python2_sitearch}/mpl_toolkits/
 %{python2_sitearch}/pylab.py*
