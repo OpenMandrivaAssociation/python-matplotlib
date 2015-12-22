@@ -355,7 +355,6 @@ PYTHONPATH=$RPM_BUILD_ROOT%{python_sitearch} \
 %doc CHANGELOG
 %doc INSTALL
 %{python2_sitearch}/*egg-info
-%{python2_sitearch}/matplotlib-*-nspkg.pth
 %{python2_sitearch}/%{module}/
 %{python2_sitearch}/mpl_toolkits/
 %{python2_sitearch}/pylab.py*
