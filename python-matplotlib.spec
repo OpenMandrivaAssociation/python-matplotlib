@@ -5,8 +5,8 @@
 %global run_tests 0
 
 # the default backend; one of GTK GTKAgg GTKCairo GTK3Agg GTK3Cairo
-# CocoaAgg MacOSX Qt4Agg TkAgg Agg Cairo GDK PS PDF SVG
-%global backend Qt4Agg
+# CocoaAgg MacOSX Qt4Agg Qt5Agg TkAgg Agg Cairo GDK PS PDF SVG
+%global backend Qt5Agg
 
 # https://fedorahosted.org/fpc/ticket/381
 %global with_bundled_fonts 1
@@ -29,7 +29,7 @@ BuildRequires:	python-configobj
 BuildRequires:	python-cxx-devel
 BuildRequires:	python-dateutil
 BuildRequires:	python-pytz
-BuildRequires:	python-qt4
+BuildRequires:	python-qt5
 BuildRequires:	qhull-devel
 BuildRequires:	tkinter
 BuildRequires:	x11-server-xvfb
@@ -59,8 +59,8 @@ Requires:	%{name}-data = %{version}-%{release}
 %if "%{backend}" == "TkAgg"
 Requires:	%{name}-tk%{?_isa} = %{version}-%{release}
 %else
-%if "%{backend}" == "Qt4Agg"
-Requires:	%{name}-qt4%{?_isa} = %{version}-%{release}
+%if "%{backend}" == "Qt5Agg"
+Requires:	%{name}-qt5%{?_isa} = %{version}-%{release}
 %endif
 %endif
 
@@ -95,14 +95,14 @@ Requires:      %{name}-cairo = %{version}-%{release}
 This package contains the GDK and GTK backends for matplotlib.
 
 
-%package qt4
+%package qt5
 Summary:	Qt backend for matplotlib
 Group:		Development/Python
 Requires:	%{name} = %{version}-%{release}
-Requires:	python-qt4
+Requires:	python-qt5
 
-%description qt4
-This package contains the Qt4 backend for matplotlib.
+%description qt5
+This package contains the Qt5 backend for matplotlib.
 
 %package svg
 Summary:	SVG backend for matplotlib
@@ -182,14 +182,14 @@ Requires:      python2-matplotlib-cairo = %{version}-%{release}
 This package contains the GDK and GTK backends for matplotlib.
 
 
-%package -n python2-matplotlib-qt4
+%package -n python2-matplotlib-qt5
 Summary:	Qt backend for matplotlib
 Group:		Development/Python
-Requires:	python2-matplotlib-qt4 = %{version}-%{release}
-Requires:	python2-qt4
+Requires:	python2-matplotlib-qt5 = %{version}-%{release}
+Requires:	python2-qt5
 
-%description -n python2-matplotlib-qt4
-This package contains the Qt4 backend for matplotlib.
+%description -n python2-matplotlib-qt5
+This package contains the Qt5 backend for matplotlib.
 
 %package -n python2-matplotlib-svg
 Summary:	SVG backend for matplotlib
@@ -308,8 +308,8 @@ PYTHONPATH=$RPM_BUILD_ROOT%{python_sitearch} \
 %{python_sitearch}/mpl_toolkits/
 %{python_sitearch}/pylab.py*
 %exclude %{py_platsitedir}/%{module}/backends/backend_cairo.py*
-%exclude %{py_platsitedir}/%{module}/backends/backend_qt4.py*
-%exclude %{py_platsitedir}/%{module}/backends/backend_qt4agg.py*
+%exclude %{py_platsitedir}/%{module}/backends/backend_qt5.py*
+%exclude %{py_platsitedir}/%{module}/backends/backend_qt5agg.py*
 %exclude %{py_platsitedir}/%{module}/backends/backend_svg.py*
 %exclude %{py_platsitedir}/%{module}/backends/backend_tkagg.py*
 %exclude %{py_platsitedir}/%{module}/backends/tkagg.py*
@@ -318,9 +318,9 @@ PYTHONPATH=$RPM_BUILD_ROOT%{python_sitearch} \
 %files cairo
 %{py_platsitedir}/%{module}/backends/backend_cairo.py*
 
-%files qt4
-%{py_platsitedir}/%{module}/backends/backend_qt4.py*
-%{py_platsitedir}/%{module}/backends/backend_qt4agg.py*
+%files qt5
+%{py_platsitedir}/%{module}/backends/backend_qt5.py*
+%{py_platsitedir}/%{module}/backends/backend_qt5agg.py*
 
 %files svg
 %{py_platsitedir}/%{module}/backends/backend_svg.py*
@@ -355,13 +355,12 @@ PYTHONPATH=$RPM_BUILD_ROOT%{python_sitearch} \
 %doc CHANGELOG
 %doc INSTALL
 %{python2_sitearch}/*egg-info
-%{python2_sitearch}/matplotlib-*-nspkg.pth
 %{python2_sitearch}/%{module}/
 %{python2_sitearch}/mpl_toolkits/
 %{python2_sitearch}/pylab.py*
 %exclude %{py2_platsitedir}/%{module}/backends/backend_cairo.py*
-%exclude %{py2_platsitedir}/%{module}/backends/backend_qt4.py*
-%exclude %{py2_platsitedir}/%{module}/backends/backend_qt4agg.py*
+%exclude %{py2_platsitedir}/%{module}/backends/backend_qt5.py*
+%exclude %{py2_platsitedir}/%{module}/backends/backend_qt5agg.py*
 %exclude %{py2_platsitedir}/%{module}/backends/backend_svg.py*
 %exclude %{py2_platsitedir}/%{module}/backends/backend_tkagg.py*
 %exclude %{py2_platsitedir}/%{module}/backends/tkagg.py*
@@ -370,9 +369,9 @@ PYTHONPATH=$RPM_BUILD_ROOT%{python_sitearch} \
 %files -n python2-matplotlib-cairo
 %{py2_platsitedir}/%{module}/backends/backend_cairo.py*
 
-%files -n python2-matplotlib-qt4
-%{py2_platsitedir}/%{module}/backends/backend_qt4.py*
-%{py2_platsitedir}/%{module}/backends/backend_qt4agg.py*
+%files -n python2-matplotlib-qt5
+%{py2_platsitedir}/%{module}/backends/backend_qt5.py*
+%{py2_platsitedir}/%{module}/backends/backend_qt5agg.py*
 
 %files -n python2-matplotlib-svg
 %{py2_platsitedir}/%{module}/backends/backend_svg.py*
