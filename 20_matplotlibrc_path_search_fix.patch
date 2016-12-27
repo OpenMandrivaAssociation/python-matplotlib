@@ -1,0 +1,24 @@
+--- a/lib/matplotlib/__init__.py	2016-04-04 12:54:26.427194940 +0200
++++ b/lib/matplotlib/__init__.py	2016-04-04 12:56:12.662590255 +0200
+@@ -682,9 +682,12 @@
+ 
+     _file = _decode_filesystem_path(__file__)
+     path = os.sep.join([os.path.dirname(_file), 'mpl-data'])
++    path = '/usr/share/matplotlib/mpl-data'
+     if os.path.isdir(path):
+         return path
+ 
++    raise RuntimeError('Could not find the matplotlib data files')
++
+     # setuptools' namespace_packages may highjack this init file
+     # so need to try something known to be in matplotlib, not basemap
+     import matplotlib.afm
+@@ -812,7 +815,7 @@
+                     home, '.matplotlib', 'matplotlibrc')
+             return fname
+ 
+-    path = get_data_path()  # guaranteed to exist or raise
++    path = '/etc'  # guaranteed to exist or raise
+     fname = os.path.join(path, 'matplotlibrc')
+     if not os.path.exists(fname):
+         warnings.warn('Could not find matplotlibrc; using defaults')
