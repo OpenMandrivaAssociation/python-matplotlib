@@ -13,7 +13,7 @@
 
 Summary:	Python 2D plotting library
 Name:		python-%{module}
-Version:	1.5.1
+Version:	1.5.3
 Release:	1
 Group:		Development/Python
 License:	Python license
@@ -21,6 +21,7 @@ Url:		http://matplotlib.sourceforge.net/
 Source0:	https://downloads.sourceforge.net/project/matplotlib/matplotlib/matplotlib-%{version}/matplotlib-%{version}.tar.gz
 Source1:	setup.cfg
 #Patch0:		python-matplotlib-aggdir.patch
+Patch1:		20_matplotlibrc_path_search_fix.patch
 
 BuildRequires:	python-parsing
 BuildRequires:	python-setuptools
@@ -158,6 +159,7 @@ BuildRequires:	tkinter2
 BuildRequires:	python2-numpy-devel >= 1.1.0
 BuildRequires:	python2-cxx-devel
 BuildRequires:	pkgconfig(python)
+BuildRequires:	python2-setuptools
 
 %description -n python2-matplotlib
 Python 2.x version of matplotlib
@@ -237,14 +239,14 @@ cp -a `ls |grep -v PY2` PY2/
 PYTHONDONTWRITEBYTECODE=true \
 MPLCONFIGDIR=$PWD \
 MATPLOTLIBDATA=$PWD/lib/matplotlib/mpl-data \
-    python setup.py build
+    python setup.py build build_ext -ldl
 
 %if %{with python2}
 cd PY2
 PYTHONDONTWRITEBYTECODE=true \
 MPLCONFIGDIR=$PWD \
 MATPLOTLIBDATA=$PWD/lib/matplotlib/mpl-data \
-    python2 setup.py build
+    python2 setup.py build build_ext -ldl
 cd ..
 %endif
 
@@ -355,6 +357,7 @@ PYTHONPATH=$RPM_BUILD_ROOT%{python_sitearch} \
 %doc CHANGELOG
 %doc INSTALL
 %{python2_sitearch}/*egg-info
+%{python2_sitearch}/matplotlib-*-nspkg.pth
 %{python2_sitearch}/%{module}/
 %{python2_sitearch}/mpl_toolkits/
 %{python2_sitearch}/pylab.py*
