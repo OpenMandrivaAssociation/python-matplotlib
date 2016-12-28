@@ -14,7 +14,7 @@
 Summary:	Python 2D plotting library
 Name:		python-%{module}
 Version:	1.5.3
-Release:	1
+Release:	2
 Group:		Development/Python
 License:	Python license
 Url:		http://matplotlib.sourceforge.net/
@@ -154,6 +154,7 @@ BuildArch:      noarch
 %package -n python2-matplotlib
 Summary:	Python 2.x version of matplotlib
 Group:		Development/Python
+Requires:       %{name}-data = %{version}-%{release}
 BuildRequires:	python2-pytz
 BuildRequires:	tkinter2
 BuildRequires:	python2-numpy-devel >= 1.1.0
