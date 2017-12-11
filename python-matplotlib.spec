@@ -21,6 +21,7 @@ Url:		http://matplotlib.sourceforge.net/
 Source0:	https://github.com/matplotlib/matplotlib/archive/v%{version}.tar.gz
 Source1:	setup.cfg
 Patch0:		matplotlib-2.1.1-datafile-search-path.patch
+Patch1:		matplotlib-2.1.1-32bit-compile.patch
 
 BuildRequires:	python-parsing
 BuildRequires:	python-setuptools

@@ -1,0 +1,20 @@
+--- matplotlib-2.1.1/src/_image_wrapper.cpp.omv~	2017-12-12 00:42:45.719900731 +0100
++++ matplotlib-2.1.1/src/_image_wrapper.cpp	2017-12-12 00:43:22.662993529 +0100
+@@ -383,7 +383,7 @@ static PyObject *image_pcolor(PyObject *
+         return NULL;
+     }
+ 
+-    npy_intp dim[3] = {rows, cols, 4};
++    npy_intp dim[3] = {static_cast<npy_intp>(rows), static_cast<npy_intp>(cols), 4};
+     numpy::array_view<const agg::int8u, 3> output(dim);
+ 
+     CALL_CPP("pcolor", (pcolor(x, y, d, rows, cols, bounds, interpolation, output)));
+@@ -428,7 +428,7 @@ static PyObject *image_pcolor2(PyObject
+         return NULL;
+     }
+ 
+-    npy_intp dim[3] = {rows, cols, 4};
++    npy_intp dim[3] = {static_cast<npy_intp>(rows), static_cast<npy_intp>(cols), 4};
+     numpy::array_view<const agg::int8u, 3> output(dim);
+ 
+     CALL_CPP("pcolor2", (pcolor2(x, y, d, rows, cols, bounds, bg, output)));
