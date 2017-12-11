@@ -13,15 +13,14 @@
 
 Summary:	Python 2D plotting library
 Name:		python-%{module}
-Version:	1.5.3
-Release:	2
+Version:	2.1.1
+Release:	1
 Group:		Development/Python
 License:	Python license
 Url:		http://matplotlib.sourceforge.net/
-Source0:	https://downloads.sourceforge.net/project/matplotlib/matplotlib/matplotlib-%{version}/matplotlib-%{version}.tar.gz
+Source0:	https://github.com/matplotlib/matplotlib/archive/v%{version}.tar.gz
 Source1:	setup.cfg
 #Patch0:		python-matplotlib-aggdir.patch
-Patch1:		20_matplotlibrc_path_search_fix.patch
 
 BuildRequires:	python-parsing
 BuildRequires:	python-setuptools
@@ -303,8 +302,6 @@ PYTHONPATH=$RPM_BUILD_ROOT%{python_sitearch} \
 %files
 %doc README.rst
 %doc LICENSE/
-%doc CHANGELOG
-%doc INSTALL
 %{python_sitearch}/*egg-info
 %{python_sitearch}/matplotlib-*-nspkg.pth
 %{python_sitearch}/%{module}/
@@ -355,8 +352,6 @@ PYTHONPATH=$RPM_BUILD_ROOT%{python_sitearch} \
 %files -n python2-matplotlib
 %doc README.rst
 %doc LICENSE/
-%doc CHANGELOG
-%doc INSTALL
 %{python2_sitearch}/*egg-info
 %{python2_sitearch}/matplotlib-*-nspkg.pth
 %{python2_sitearch}/%{module}/
