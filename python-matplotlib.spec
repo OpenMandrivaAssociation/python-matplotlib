@@ -14,13 +14,13 @@
 Summary:	Python 2D plotting library
 Name:		python-%{module}
 Version:	2.1.1
-Release:	1
+Release:	2
 Group:		Development/Python
 License:	Python license
 Url:		http://matplotlib.sourceforge.net/
 Source0:	https://github.com/matplotlib/matplotlib/archive/v%{version}.tar.gz
 Source1:	setup.cfg
-#Patch0:		python-matplotlib-aggdir.patch
+Patch0:		matplotlib-2.1.1-datafile-search-path.patch
 
 BuildRequires:	python-parsing
 BuildRequires:	python-setuptools
