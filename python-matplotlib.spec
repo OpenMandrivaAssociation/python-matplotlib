@@ -13,7 +13,7 @@
 
 Summary:	Python 2D plotting library
 Name:		python-%{module}
-Version:	2.1.2
+Version:	2.2.2
 Release:	1
 Group:		Development/Python
 License:	Python license
@@ -308,6 +308,7 @@ PYTHONPATH=$RPM_BUILD_ROOT%{python_sitearch} \
 %{python_sitearch}/%{module}/
 %{python_sitearch}/mpl_toolkits/
 %{python_sitearch}/pylab.py*
+%{python_sitearch}/__pycache__/*
 %exclude %{py_platsitedir}/%{module}/backends/backend_cairo.py*
 %exclude %{py_platsitedir}/%{module}/backends/backend_qt5.py*
 %exclude %{py_platsitedir}/%{module}/backends/backend_qt5agg.py*
