@@ -27,6 +27,7 @@ BuildRequires:	python-parsing
 BuildRequires:	python-setuptools
 BuildRequires:	ipython
 BuildRequires:	python-configobj
+BuildRequires:	python-pkg-resources
 BuildRequires:	python-cxx-devel
 BuildRequires:	python-dateutil
 BuildRequires:	python-pytz
@@ -161,6 +162,7 @@ BuildRequires:	python2-numpy-devel >= 1.1.0
 BuildRequires:	python2-cxx-devel
 BuildRequires:	pkgconfig(python)
 BuildRequires:	python2-setuptools
+BuildRequires:	python2-pkg-resources
 
 %description -n python2-matplotlib
 Python 2.x version of matplotlib
