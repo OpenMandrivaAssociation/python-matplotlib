@@ -1,5 +1,5 @@
 %define module matplotlib
-%bcond_without python2
+%bcond_with python2
 
 %global with_html 0
 %global run_tests 0
@@ -13,15 +13,17 @@
 
 Summary:	Python 2D plotting library
 Name:		python-%{module}
-Version:	2.2.3
-Release:	2
+Version:	3.1.2
+Release:	1
 Group:		Development/Python
 License:	Python license
 Url:		http://matplotlib.sourceforge.net/
 Source0:	https://github.com/matplotlib/matplotlib/archive/v%{version}.tar.gz
 Source1:	setup.cfg
-Patch0:		matplotlib-2.1.1-datafile-search-path.patch
-Patch1:		matplotlib-2.1.1-32bit-compile.patch
+# Because the qhull package stopped shipping pkgconfig files.
+# https://src.fedoraproject.org/rpms/qhull/pull-request/1
+Patch0001:      0001-Force-using-system-qhull.patch
+
 
 BuildRequires:	python-parsing
 BuildRequires:	python-setuptools
@@ -216,6 +218,7 @@ This package contains the Tk backend for matplotlib.
 
 %prep
 %setup -q -n %{module}-%{version}
+%autopatch -p1
 
 # Copy setup.cfg to the builddir
 cp %{SOURCE1} .
@@ -228,8 +231,8 @@ sed -i 's/\(USE_FONTCONFIG = \)False/\1True/' lib/matplotlib/font_manager.py
 
 # Remove bundled libraries
 #rm -r extern/agg24-svn 
+rm -r extern/libqhull
 
-%apply_patches
 
 chmod -x lib/matplotlib/mpl-data/images/*.svg
 
