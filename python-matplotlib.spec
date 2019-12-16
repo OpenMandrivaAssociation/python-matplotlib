@@ -58,12 +58,15 @@ Requires:	python-numpy >= 1.1.0
 Requires:	python-pytz
 Requires:	%{name}-data = %{version}-%{release}
 
-# GTKAgg does not require extra subpackages, but does not work with python3
 %if "%{backend}" == "TkAgg"
-Requires:	%{name}-tk%{?_isa} = %{version}-%{release}
+Suggests:	%{name}-tk%{?_isa} = %{version}-%{release}
 %else
-%if "%{backend}" == "Qt5Agg"
-Requires:	%{name}-qt5%{?_isa} = %{version}-%{release}
+%if "%{backend}" == "Qt5Agg" || "%{backend}" == "Qt5Cairo"
+Suggests:	%{name}-qt5%{?_isa} = %{version}-%{release}
+%else
+%if "%{backend}" == "GTKAgg" || "%{backend}" == "GTKCairo"
+Suggests:	%{name}-gtk%{?_isa} = %{version}-%{release}
+%endif
 %endif
 %endif
 
@@ -97,6 +100,13 @@ Requires:      %{name}-cairo = %{version}-%{release}
 %description gtk
 This package contains the GDK and GTK backends for matplotlib.
 
+%package wx
+Summary:       WxWidgets backend for matplotlib
+Group:         Development/Python
+Requires:      %{name} = %{version}-%{release}
+
+%description wx
+This package contains the WxWidgets backend for matplotlib.
 
 %package qt5
 Summary:	Qt backend for matplotlib
@@ -208,6 +218,11 @@ rm -rf %{buildroot}%{_datadir}/matplotlib/mpl-data/fonts
 %endif
 rm -rf %{buildroot}%{python_sitearch}/__pycache__
 
+# No point in supporting prehistoric libraries
+rm -rf %{buildroot}%{py_platsitedir}/%{module}/backends/backend_qt4*.py*
+# Or Nazism
+rm -rf %{buildroot}%{py_platsitedir}/%{module}/backends/backend_macos*.py*
+
 %if %{run_tests}
 %check
 # This should match the default backend
@@ -228,15 +243,33 @@ PYTHONPATH=$RPM_BUILD_ROOT%{python_sitearch} \
 %{python_sitearch}/pylab.py*
 %{python_sitearch}/__pycache__/*
 %exclude %{py_platsitedir}/%{module}/backends/backend_cairo.py*
+%exclude %{py_platsitedir}/%{module}/backends/backend_gtk3.py*
+%exclude %{py_platsitedir}/%{module}/backends/backend_gtk3agg.py*
+%exclude %{py_platsitedir}/%{module}/backends/backend_gtk3cairo.py*
 %exclude %{py_platsitedir}/%{module}/backends/backend_qt5.py*
 %exclude %{py_platsitedir}/%{module}/backends/backend_qt5agg.py*
+%exclude %{py_platsitedir}/%{module}/backends/backend_qt5cairo.py*
 %exclude %{py_platsitedir}/%{module}/backends/backend_svg.py*
 %exclude %{py_platsitedir}/%{module}/backends/backend_tkagg.py*
+%exclude %{py_platsitedir}/%{module}/backends/backend_wx.py*
+%exclude %{py_platsitedir}/%{module}/backends/backend_wxagg.py*
+%exclude %{py_platsitedir}/%{module}/backends/backend_wxcairo.py*
 %exclude %{py_platsitedir}/%{module}/backends/tkagg.py*
 %exclude %{py_platsitedir}/%{module}/backends/_tkagg*.so
 
 %files cairo
 %{py_platsitedir}/%{module}/backends/backend_cairo.py*
+%{py_platsitedir}/%{module}/backends/backend_qt5cairo.py*
+
+%files gtk
+%{py_platsitedir}/%{module}/backends/backend_gtk3.py*
+%{py_platsitedir}/%{module}/backends/backend_gtk3agg.py*
+%{py_platsitedir}/%{module}/backends/backend_gtk3cairo.py*
+
+%files wx
+%{py_platsitedir}/%{module}/backends/backend_wx.py*
+%{py_platsitedir}/%{module}/backends/backend_wxagg.py*
+%{py_platsitedir}/%{module}/backends/backend_wxcairo.py*
 
 %files qt5
 %{py_platsitedir}/%{module}/backends/backend_qt5.py*
