@@ -1,5 +1,4 @@
 %define module matplotlib
-%bcond_with python2
 
 %global with_html 0
 %global run_tests 0
@@ -153,69 +152,6 @@ BuildArch:      noarch
 %{summary}
 %endif
 
-%if %{with python2}
-%package -n python2-matplotlib
-Summary:	Python 2.x version of matplotlib
-Group:		Development/Python
-Requires:       %{name}-data = %{version}-%{release}
-BuildRequires:	python2-pytz
-BuildRequires:	tkinter2
-BuildRequires:	python2-numpy-devel >= 1.1.0
-BuildRequires:	python2-cxx-devel
-BuildRequires:	pkgconfig(python)
-BuildRequires:	python2-setuptools
-BuildRequires:	python2-pkg-resources
-
-%description -n python2-matplotlib
-Python 2.x version of matplotlib
-
-%package -n python2-matplotlib-cairo
-Summary:	Cairo backend for matplotlib
-Group:		Development/Python
-Requires:	python2-matplotlib = %{version}-%{release}
-Requires:	python-cairo >= 1.2.0
-
-%description -n python2-matplotlib-cairo
-This package contains the Cairo backend for matplotlib.
-
-%package -n python2-matplotlib-gtk
-Summary:       GDK and GTK backends for matplotlib
-Group:         Development/Python
-Requires:      python2-matplotlib = %{version}-%{release}
-Requires:      pygtk2.0 >= 2.4.0
-Requires:      python2-matplotlib-cairo = %{version}-%{release}
-
-%description -n python2-matplotlib-gtk
-This package contains the GDK and GTK backends for matplotlib.
-
-
-%package -n python2-matplotlib-qt5
-Summary:	Qt backend for matplotlib
-Group:		Development/Python
-Requires:	python2-matplotlib-qt5 = %{version}-%{release}
-Requires:	python2-qt5
-
-%description -n python2-matplotlib-qt5
-This package contains the Qt5 backend for matplotlib.
-
-%package -n python2-matplotlib-svg
-Summary:	SVG backend for matplotlib
-Group:		Development/Python
-Requires:	python2-matplotlib = %{version}-%{release}
-
-%description -n python2-matplotlib-svg
-This package contains the SVG backend for matplotlib.
-
-%package -n python2-matplotlib-tk
-Summary:	Tk backend for matplotlib
-Group:		Development/Python
-Requires:	python2-matplotlib = %{version}-%{release}
-Requires:	tkinter2
-
-%description -n python2-matplotlib-tk
-This package contains the Tk backend for matplotlib.
-%endif
-
 %prep
 %setup -q -n %{module}-%{version}
 %autopatch -p1
@@ -236,25 +172,11 @@ rm -r extern/libqhull
 
 chmod -x lib/matplotlib/mpl-data/images/*.svg
 
-%if %{with python2}
-mkdir PY2
-cp -a `ls |grep -v PY2` PY2/
-%endif
-
 %build
 PYTHONDONTWRITEBYTECODE=true \
 MPLCONFIGDIR=$PWD \
 MATPLOTLIBDATA=$PWD/lib/matplotlib/mpl-data \
     python setup.py build build_ext -ldl
-
-%if %{with python2}
-cd PY2
-PYTHONDONTWRITEBYTECODE=true \
-MPLCONFIGDIR=$PWD \
-MATPLOTLIBDATA=$PWD/lib/matplotlib/mpl-data \
-    python2 setup.py build build_ext -ldl
-cd ..
-%endif
 
 %if %{with_html}
 # Need to make built matplotlib libs available for the sphinx extensions:
@@ -274,15 +196,6 @@ PYTHONDONTWRITEBYTECODE=true \
 MPLCONFIGDIR=$PWD \
 MATPLOTLIBDATA=$PWD/lib/matplotlib/mpl-data/ \
     python setup.py install --skip-build --root=%{buildroot}
-
-%if %{with python2}
-cd PY2
-PYTHONDONTWRITEBYTECODE=true \
-MPLCONFIGDIR=$PWD \
-MATPLOTLIBDATA=$PWD/lib/matplotlib/mpl-data/ \
-    python2 setup.py install --skip-build --root=%{buildroot}
-cd ..
-%endif
 
 chmod +x %{buildroot}%{python_sitearch}/matplotlib/dates.py
 mkdir -p %{buildroot}%{_sysconfdir} %{buildroot}%{_datadir}/matplotlib
@@ -353,37 +266,4 @@ PYTHONPATH=$RPM_BUILD_ROOT%{python_sitearch} \
 %if %{with_bundled_fonts}
 %files data-fonts
 %{_datadir}/matplotlib/mpl-data/fonts/
-%endif
-
-%if %{with python2}
-%files -n python2-matplotlib
-%doc README.rst
-%doc LICENSE/
-%{python2_sitearch}/*egg-info
-%{python2_sitearch}/matplotlib-*-nspkg.pth
-%{python2_sitearch}/%{module}/
-%{python2_sitearch}/mpl_toolkits/
-%{python2_sitearch}/pylab.py*
-%exclude %{py2_platsitedir}/%{module}/backends/backend_cairo.py*
-%exclude %{py2_platsitedir}/%{module}/backends/backend_qt5.py*
-%exclude %{py2_platsitedir}/%{module}/backends/backend_qt5agg.py*
-%exclude %{py2_platsitedir}/%{module}/backends/backend_svg.py*
-%exclude %{py2_platsitedir}/%{module}/backends/backend_tkagg.py*
-%exclude %{py2_platsitedir}/%{module}/backends/tkagg.py*
-%exclude %{py2_platsitedir}/%{module}/backends/_tkagg*.so
-
-%files -n python2-matplotlib-cairo
-%{py2_platsitedir}/%{module}/backends/backend_cairo.py*
-
-%files -n python2-matplotlib-qt5
-%{py2_platsitedir}/%{module}/backends/backend_qt5.py*
-%{py2_platsitedir}/%{module}/backends/backend_qt5agg.py*
-
-%files -n python2-matplotlib-svg
-%{py2_platsitedir}/%{module}/backends/backend_svg.py*
-
-%files -n python2-matplotlib-tk
-%{py2_platsitedir}/%{module}/backends/backend_tkagg.py*
-%{py2_platsitedir}/%{module}/backends/tkagg.py*
-%{py2_platsitedir}/%{module}/backends/_tkagg*.so
 %endif
