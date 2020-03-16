@@ -54,7 +54,7 @@ BuildRequires:	python-numpydoc
 %endif
 Requires:	python-configobj
 Requires:	python-dateutil
-Requires:	python-numpy >= 1.1.0
+Requires:	python3-numpy >= 1.1.0
 Requires:	python-pytz
 Requires:	%{name}-data = %{version}-%{release}
 
