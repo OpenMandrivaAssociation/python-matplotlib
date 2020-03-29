@@ -12,7 +12,7 @@
 
 Summary:	Python 2D plotting library
 Name:		python-%{module}
-Version:	3.1.2
+Version:	3.2.1
 Release:	1
 Group:		Development/Python
 License:	Python license
@@ -254,7 +254,6 @@ PYTHONPATH=$RPM_BUILD_ROOT%{python_sitearch} \
 %exclude %{py_platsitedir}/%{module}/backends/backend_wx.py*
 %exclude %{py_platsitedir}/%{module}/backends/backend_wxagg.py*
 %exclude %{py_platsitedir}/%{module}/backends/backend_wxcairo.py*
-%exclude %{py_platsitedir}/%{module}/backends/tkagg.py*
 %exclude %{py_platsitedir}/%{module}/backends/_tkagg*.so
 
 %files cairo
@@ -280,7 +279,6 @@ PYTHONPATH=$RPM_BUILD_ROOT%{python_sitearch} \
 
 %files tk
 %{py_platsitedir}/%{module}/backends/backend_tkagg.py*
-%{py_platsitedir}/%{module}/backends/tkagg.py*
 %{py_platsitedir}/%{module}/backends/_tkagg*.so
 
 %files doc
