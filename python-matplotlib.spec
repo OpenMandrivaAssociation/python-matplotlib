@@ -56,6 +56,7 @@ Requires:	python-configobj
 Requires:	python-dateutil
 Requires:	python3-numpy >= 1.1.0
 Requires:	python-pytz
+Requires:	python-matplotlib-data = %{version}-%{release}
 Requires:	%{name}-data = %{version}-%{release}
 
 %if "%{backend}" == "TkAgg"
