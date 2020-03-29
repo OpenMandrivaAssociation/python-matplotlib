@@ -95,7 +95,8 @@ This package contains the Cairo backend for matplotlib.
 Summary:       GDK and GTK backends for matplotlib
 Group:         Development/Python
 Requires:      %{name} = %{version}-%{release}
-Requires:      pygtk2.0 >= 2.4.0
+# absolutely broken
+#Requires:      pygtk2.0 >= 2.4.0
 Requires:      %{name}-cairo = %{version}-%{release}
 
 %description gtk
