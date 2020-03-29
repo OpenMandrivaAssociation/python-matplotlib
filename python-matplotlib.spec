@@ -22,6 +22,7 @@ Source1:	setup.cfg
 # Because the qhull package stopped shipping pkgconfig files.
 # https://src.fedoraproject.org/rpms/qhull/pull-request/1
 Patch0001:      0001-Force-using-system-qhull.patch
+Patch0002:	0001-matplotlibrc-path-search-fix.patch
 
 
 BuildRequires:	python-parsing
@@ -56,7 +57,6 @@ Requires:	python-configobj
 Requires:	python-dateutil
 Requires:	python3-numpy >= 1.1.0
 Requires:	python-pytz
-Requires:	python-matplotlib-data = %{version}-%{release}
 Requires:	%{name}-data = %{version}-%{release}
 
 %if "%{backend}" == "TkAgg"
@@ -207,7 +207,7 @@ find examples -name '*.py' -exec chmod a-x '{}' \;
 PYTHONDONTWRITEBYTECODE=true \
 MPLCONFIGDIR=$PWD \
 MATPLOTLIBDATA=$PWD/lib/matplotlib/mpl-data/ \
-    python setup.py install --skip-build --root=%{buildroot}
+    %{__python3} setup.py install --skip-build --root=%{buildroot}
 
 chmod +x %{buildroot}%{python_sitearch}/matplotlib/dates.py
 mkdir -p %{buildroot}%{_sysconfdir} %{buildroot}%{_datadir}/matplotlib
