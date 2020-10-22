@@ -9,6 +9,7 @@
 
 # https://fedorahosted.org/fpc/ticket/381
 %global with_bundled_fonts 1
+%global debug_package %nil
 
 Summary:	Python 2D plotting library
 Name:		python-%{module}
