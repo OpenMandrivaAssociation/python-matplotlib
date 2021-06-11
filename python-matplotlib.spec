@@ -13,18 +13,14 @@
 
 Summary:	Python 2D plotting library
 Name:		python-%{module}
-Version:	3.3.3
+Version:	3.4.2
 Release:	1
 Group:		Development/Python
 License:	Python license
 Url:		http://matplotlib.sourceforge.net/
 Source0:	https://github.com/matplotlib/matplotlib/archive/v%{version}/%{module}-%{version}.tar.gz
 Source1:	setup.cfg
-# Because the qhull package stopped shipping pkgconfig files.
-# https://src.fedoraproject.org/rpms/qhull/pull-request/1
-#Patch0001:      0001-Force-using-system-qhull.patch
-#Patch0002:	0001-matplotlibrc-path-search-fix.patch
-
+Patch1:		0001-matplotlibrc-path-search-fix.patch
 
 BuildRequires:	python-parsing
 BuildRequires:	python-setuptools
@@ -180,7 +176,6 @@ sed -i 's/\(USE_FONTCONFIG = \)False/\1True/' lib/matplotlib/font_manager.py
 
 # Remove bundled libraries
 #rm -r extern/agg24-svn 
-rm -r extern/libqhull
 
 
 chmod -x lib/matplotlib/mpl-data/images/*.svg
