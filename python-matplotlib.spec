@@ -9,7 +9,8 @@
 
 # https://fedorahosted.org/fpc/ticket/381
 %global with_bundled_fonts 1
-%global debug_package %nil
+#global debug_package %nil
+%define _empty_manifest_terminate_build 0
 
 Summary:	Python 2D plotting library
 Name:		python-%{module}
@@ -32,6 +33,7 @@ BuildRequires:	python-dateutil
 BuildRequires:	python-pytz
 BuildRequires:	python-qt5
 BuildRequires:	python-qt5-devel
+BuildRequires:	python-pip
 BuildRequires:	qhull-devel
 BuildRequires:	tkinter
 BuildRequires:	python-numpy-devel >= 1.1.0
