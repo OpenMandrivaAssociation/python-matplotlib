@@ -15,13 +15,14 @@
 Summary:	Python 2D plotting library
 Name:		python-%{module}
 Version:	3.4.2
-Release:	1
+Release:	2
 Group:		Development/Python
 License:	Python license
 Url:		http://matplotlib.sourceforge.net/
 Source0:	https://github.com/matplotlib/matplotlib/archive/v%{version}/%{module}-%{version}.tar.gz
 Source1:	setup.cfg
 Patch1:		0001-matplotlibrc-path-search-fix.patch
+Patch2:		0002-Set-FreeType-version-to-2.10.4-and-update-tolerances.patch
 
 BuildRequires:	python-parsing
 BuildRequires:	python-setuptools
@@ -186,7 +187,7 @@ chmod -x lib/matplotlib/mpl-data/images/*.svg
 PYTHONDONTWRITEBYTECODE=true \
 MPLCONFIGDIR=$PWD \
 MATPLOTLIBDATA=$PWD/lib/matplotlib/mpl-data \
-    python setup.py build build_ext -ldl
+    python setup.py build build_ext -ldl -lfreetype
 
 %if %{with_html}
 # Need to make built matplotlib libs available for the sphinx extensions:
@@ -209,8 +210,6 @@ MATPLOTLIBDATA=$PWD/lib/matplotlib/mpl-data/ \
 
 chmod +x %{buildroot}%{python_sitearch}/matplotlib/dates.py
 mkdir -p %{buildroot}%{_sysconfdir} %{buildroot}%{_datadir}/matplotlib
-mv %{buildroot}%{python_sitearch}/matplotlib/mpl-data/matplotlibrc \
-   %{buildroot}%{_sysconfdir}
 mv %{buildroot}%{python_sitearch}/matplotlib/mpl-data \
    %{buildroot}%{_datadir}/matplotlib
 %if !%{with_bundled_fonts}
@@ -288,7 +287,6 @@ PYTHONPATH=$RPM_BUILD_ROOT%{python_sitearch} \
 %endif
 
 %files data
-%{_sysconfdir}/matplotlibrc
 %{_datadir}/matplotlib/mpl-data/
 %if %{with_bundled_fonts}
 %exclude %{_datadir}/matplotlib/mpl-data/fonts/
