@@ -41,6 +41,7 @@ BuildRequires:	python-numpy-devel >= 1.1.0
 BuildRequires:	pkgconfig(cairo)
 BuildRequires:	pkgconfig(freetype2)
 #BuildRequires:	pkgconfig(libagg)
+BuildRequires:  pkgconfig(libbrotlidec)
 BuildRequires:	pkgconfig(libpng)
 BuildRequires:	pkgconfig(tcl)
 BuildRequires:	pkgconfig(tk)
