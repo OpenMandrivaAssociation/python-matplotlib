@@ -14,8 +14,8 @@
 
 Summary:	Python 2D plotting library
 Name:		python-%{module}
-Version:	3.4.2
-Release:	4
+Version:	3.5.1
+Release:	1
 Group:		Development/Python
 License:	Python license
 Url:		http://matplotlib.sourceforge.net/
@@ -240,7 +240,6 @@ PYTHONPATH=$RPM_BUILD_ROOT%{python_sitearch} \
 %{python_sitearch}/%{module}/
 %{python_sitearch}/mpl_toolkits/
 %{python_sitearch}/pylab.py*
-%{python_sitearch}/__pycache__/*
 %exclude %{py_platsitedir}/%{module}/backends/backend_cairo.py*
 %exclude %{py_platsitedir}/%{module}/backends/backend_gtk3.py*
 %exclude %{py_platsitedir}/%{module}/backends/backend_gtk3agg.py*
