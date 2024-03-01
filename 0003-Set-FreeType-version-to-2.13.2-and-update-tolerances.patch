@@ -1,7 +1,7 @@
 From a5490ca593e1515bddbc96491efd8d1ff5e372d6 Mon Sep 17 00:00:00 2001
 From: Elliott Sales de Andrade <quantum.analyst@gmail.com>
 Date: Fri, 14 Feb 2020 06:05:42 -0500
-Subject: [PATCH 3/5] Set FreeType version to 2.13.1 and update tolerances
+Subject: [PATCH 3/5] Set FreeType version to 2.13.2 and update tolerances
 
 Signed-off-by: Elliott Sales de Andrade <quantum.analyst@gmail.com>
 ---
@@ -24,7 +24,7 @@ index 26dd9372e1..81b77d455f 100644
      # The version of FreeType to install locally for running the
      # tests.  This must match the value in `setupext.py`
 -    LOCAL_FREETYPE_VERSION = '2.6.1'
-+    LOCAL_FREETYPE_VERSION = '2.13.1'
++    LOCAL_FREETYPE_VERSION = '2.13.2'
  
      from matplotlib import ft2font
      if (ft2font.__freetype_version__ != LOCAL_FREETYPE_VERSION or
@@ -177,7 +177,7 @@ index 9f78d88c87..6dc740e8f7 100644
 +        'efe71fd4b8246f1b0b1b9bfca13cfff1c9ad85930340c27df469733bbb620938',
 +    '2.13.0':
 +        'a7aca0e532a276ea8d85bd31149f0a74c33d19c8d287116ef8f5f8357b4f1f80',
-+    '2.13.1':
++    '2.13.2':
 +        '0b109c59914f25b4411a8de2a506fdd18fa8457eb86eca6c7b15c19110a92fa5',
  }
  # This is the version of FreeType to use when building a local version.  It
@@ -185,7 +185,7 @@ index 9f78d88c87..6dc740e8f7 100644
  # `.circleci/config.yml`. Also update the docs in
  # `docs/devel/dependencies.rst`.
 -TESTING_VERSION_OF_FREETYPE = '2.6.1'
-+TESTING_VERSION_OF_FREETYPE = '2.13.1'
++TESTING_VERSION_OF_FREETYPE = '2.13.2'
  if sys.platform.startswith('win') and platform.machine() == 'ARM64':
      # older versions of freetype are not supported for win/arm64
      # Matplotlib tests will not pass

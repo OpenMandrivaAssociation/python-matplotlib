@@ -20,9 +20,9 @@ Group:		Development/Python
 License:	Python license
 Url:		http://matplotlib.sourceforge.net/
 Source0:	https://github.com/matplotlib/matplotlib/archive/v%{version}/%{module}-%{version}.tar.gz
-Source1:	setup.cfg
+Source1:	mplsetup.cfg
 Patch1:		0001-matplotlibrc-path-search-fix.patch
-Patch2:		0003-Set-FreeType-version-to-2.13.1-and-update-tolerances.patch
+Patch2:		0003-Set-FreeType-version-to-2.13.2-and-update-tolerances.patch
 BuildRequires:	python-parsing
 BuildRequires:	python-setuptools
 BuildRequires:	ipython
@@ -169,9 +169,9 @@ BuildArch:      noarch
 %setup -q -n %{module}-%{version}
 %autopatch -p1
 
-# Copy setup.cfg to the builddir
+# Copy mplsetup.cfg to the builddir
 cp %{SOURCE1} .
-sed -i 's/\(backend = \).*/\1%{backend}/' setup.cfg
+sed -i 's/\(backend = \).*/\1%{backend}/' mplsetup.cfg
 
 %if !%{with_bundled_fonts}
 # Use fontconfig by default
