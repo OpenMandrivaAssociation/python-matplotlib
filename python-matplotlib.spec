@@ -14,16 +14,15 @@
 
 Summary:	Python 2D plotting library
 Name:		python-%{module}
-Version:	3.5.1
-Release:	3
+Version:	3.8.3
+Release:	1
 Group:		Development/Python
 License:	Python license
 Url:		http://matplotlib.sourceforge.net/
 Source0:	https://github.com/matplotlib/matplotlib/archive/v%{version}/%{module}-%{version}.tar.gz
 Source1:	setup.cfg
 Patch1:		0001-matplotlibrc-path-search-fix.patch
-Patch2:		0002-Set-FreeType-version-to-2.10.4-and-update-tolerances.patch
-
+Patch2:		0003-Set-FreeType-version-to-2.13.1-and-update-tolerances.patch
 BuildRequires:	python-parsing
 BuildRequires:	python-setuptools
 BuildRequires:	ipython
@@ -201,7 +200,7 @@ popd
 %endif
 # Ensure all example files are non-executable so that the -doc
 # package doesn't drag in dependencies
-find examples -name '*.py' -exec chmod a-x '{}' \;
+find galleries/examples -name '*.py' -exec chmod a-x '{}' \;
 
 %install
 PYTHONDONTWRITEBYTECODE=true \
@@ -234,10 +233,9 @@ PYTHONPATH=$RPM_BUILD_ROOT%{python_sitearch} \
 %endif # run_tests
 
 %files
-%doc README.rst
+%doc README.md
 %doc LICENSE/
 %{python_sitearch}/*egg-info
-%{python_sitearch}/matplotlib-*-nspkg.pth
 %{python_sitearch}/%{module}/
 %{python_sitearch}/mpl_toolkits/
 %{python_sitearch}/pylab.py*
@@ -281,7 +279,7 @@ PYTHONPATH=$RPM_BUILD_ROOT%{python_sitearch} \
 %{py_platsitedir}/%{module}/backends/_tkagg*.so
 
 %files doc
-%doc examples/
+%doc galleries/examples/
 %if %{with_html}
 %doc doc/build/html/*
 %endif
