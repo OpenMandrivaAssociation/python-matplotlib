@@ -115,7 +115,9 @@ This package contains the WxWidgets backend for matplotlib.
 Summary:	Qt backend for matplotlib
 Group:		Development/Python
 Requires:	%{name} = %{version}-%{release}
-Requires:	python-qt5
+Requires:	python-qt5-core
+Requires:	python-qt5-gui
+Requires:	python-qt5-widgets
 
 %description qt5
 This package contains the Qt5 backend for matplotlib.
