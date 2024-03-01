@@ -34,6 +34,7 @@ BuildRequires:	python-pytz
 BuildRequires:	python-qt5
 BuildRequires:	python-qt5-devel
 BuildRequires:	python-pip
+BuildRequires:	python-pybind11
 BuildRequires:	qhull-devel
 BuildRequires:	tkinter
 BuildRequires:	python-numpy-devel >= 1.1.0
