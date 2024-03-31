@@ -55,8 +55,8 @@ BuildRequires:	python%{pyver}dist(sphinx)
 BuildRequires:	python%{pyver}dist(numpydoc)
 %endif
 Requires:	python%{pyver}dist(configobj)
-Requires:	python%{pyver}dist(dateutil)
 Requires:	python%{pyver}dist(numpy)
+Requires:	python%{pyver}dist(python-dateutil)
 Requires:	python%{pyver}dist(pytz)
 Requires:	%{name}-data = %{version}-%{release}
 
@@ -110,7 +110,7 @@ errorcharts, scatterplots, etc, with just a few lines of code.
 Summary:	Cairo backend for matplotlib
 Group:		Development/Python
 Requires:	%{name} = %{version}-%{release}
-Requires:	python%{pyver}dist(cairo) >= 1.2.0
+Requires:	python%{pyver}dist(pycairo)
 
 %description cairo
 This package contains the Cairo backend for matplotlib.
@@ -158,9 +158,9 @@ This package contains the WxWidgets backend for matplotlib.
 Summary:	Qt backend for matplotlib
 Group:		Development/Python
 Requires:	%{name} = %{version}-%{release}
-Requires:	python%{pyver}dist(qt5-core)
-Requires:	python%{pyver}dist(qt5-gui)
-Requires:	python%{pyver}dist(qt5-widgets)
+Requires:	python-qt5-core
+Requires:	python-qt5-gui
+Requires:	python-qt5-widgets
 
 %description qt5
 This package contains the Qt5 backend for matplotlib.
