@@ -15,10 +15,10 @@
 Summary:	Python 2D plotting library
 Name:		python-%{module}
 Version:	3.8.3
-Release:	1
+Release:	2
 Group:		Development/Python
 License:	Python license
-Url:		http://matplotlib.sourceforge.net/
+Url:		https://matplotlib.sourceforge.net/
 Source0:	https://github.com/matplotlib/matplotlib/archive/v%{version}/%{module}-%{version}.tar.gz
 Source1:	mplsetup.cfg
 Patch1:		0001-matplotlibrc-path-search-fix.patch
