@@ -15,7 +15,7 @@
 Summary:	Python 2D plotting library
 Name:		python-%{module}
 Version:	3.8.3
-Release:	4
+Release:	5
 Group:		Development/Python
 License:	Python license
 Url:		https://matplotlib.sourceforge.net/
@@ -42,6 +42,9 @@ BuildRequires:	python%{pyver}dist(pyqt5)
 BuildRequires:	python%{pyver}dist(python-dateutil)
 BuildRequires:	python%{pyver}dist(pytz)
 BuildRequires:	python%{pyver}dist(setuptools)
+# Without this dependency, matplotlib still builds fine, but
+# pretends its version is 0.0.0
+BuildRequires:	python%{pyver}dist(setuptools-scm)
 BuildRequires:	python-cxx-devel
 BuildRequires:	python-pkg-resources
 BuildRequires:	python-qt5
