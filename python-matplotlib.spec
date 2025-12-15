@@ -3,26 +3,25 @@
 %global with_html 0
 %global run_tests 0
 
-# the default backend; one of GTK GTKAgg GTKCairo GTK3Agg GTK3Cairo
-# CocoaAgg MacOSX Qt4Agg Qt5Agg TkAgg Agg Cairo GDK PS PDF SVG
-%global backend Qt5Agg
+# the default backend; see galleries/users_explain/figure/backends.rst
+# inside the tarball for a list
+%global backend QtAgg
 
 # https://fedorahosted.org/fpc/ticket/381
 %global with_bundled_fonts 1
 #global debug_package %nil
-%define _empty_manifest_terminate_build 0
+%undefine _debugsource_packages
 
 Summary:	Python 2D plotting library
 Name:		python-%{module}
-Version:	3.8.3
-Release:	8
+Version:	3.10.8
+Release:	1
 Group:		Development/Python
 License:	Python license
 Url:		https://matplotlib.sourceforge.net/
 Source0:	https://github.com/matplotlib/matplotlib/archive/v%{version}/%{module}-%{version}.tar.gz
 Source1:	mplsetup.cfg
 Patch1:		0001-matplotlibrc-path-search-fix.patch
-Patch2:		0003-Set-FreeType-version-to-2.13.2-and-update-tolerances.patch
 BuildRequires:	pkgconfig(cairo)
 BuildRequires:	pkgconfig(freetype2)
 #BuildRequires:	pkgconfig(libagg)
@@ -38,16 +37,17 @@ BuildRequires:	python%{pyver}dist(numpy)
 BuildRequires:	python%{pyver}dist(pip)
 BuildRequires:	python%{pyver}dist(pybind11)
 BuildRequires:	python%{pyver}dist(pyparsing)
-BuildRequires:	python%{pyver}dist(pyqt5)
+BuildRequires:	python%{pyver}dist(pyqt6)
 BuildRequires:	python%{pyver}dist(python-dateutil)
 BuildRequires:	python%{pyver}dist(pytz)
 BuildRequires:	python%{pyver}dist(setuptools)
+BuildRequires:	python%{pyver}dist(meson-python)
 # Without this dependency, matplotlib still builds fine, but
 # pretends its version is 0.0.0
 BuildRequires:	python%{pyver}dist(setuptools-scm)
 BuildRequires:	python-cxx-devel
 BuildRequires:	python-pkg-resources
-BuildRequires:	python-qt5
+BuildRequires:	python-qt6
 BuildRequires:	qhull-devel
 BuildRequires:	tkinter
 %if %{with_html}
@@ -66,8 +66,8 @@ Requires:	%{name}-data = %{version}-%{release}
 %if "%{backend}" == "TkAgg"
 Suggests:	%{name}-tk%{?_isa} = %{version}-%{release}
 %else
-%if "%{backend}" == "Qt5Agg" || "%{backend}" == "Qt5Cairo"
-Suggests:	%{name}-qt5%{?_isa} = %{version}-%{release}
+%if "%{backend}" == "QtAgg" || "%{backend}" == "QtCairo"
+Suggests:	%{name}-qt6%{?_isa} = %{version}-%{release}
 %else
 %if "%{backend}" == "GTKAgg" || "%{backend}" == "GTKCairo"
 Suggests:	%{name}-gtk%{?_isa} = %{version}-%{release}
@@ -157,18 +157,19 @@ This package contains the WxWidgets backend for matplotlib.
 
 #-----------------------------------------------------------------------
 
-%package qt5
+%package qt
 Summary:	Qt backend for matplotlib
 Group:		Development/Python
 Requires:	%{name} = %{version}-%{release}
-Requires:	python-qt5-core
-Requires:	python-qt5-gui
-Requires:	python-qt5-widgets
+Requires:	python-qt6-core
+Requires:	python-qt6-gui
+Requires:	python-qt6-widgets
+%rename %{name}-qt5
 
-%description qt5
+%description qt
 This package contains the Qt5 backend for matplotlib.
 
-%files qt5
+%files qt
 %{py_platsitedir}/%{module}/backends/backend_qt5.py*
 %{py_platsitedir}/%{module}/backends/backend_qt5agg.py*
 
@@ -272,8 +273,7 @@ chmod -x lib/matplotlib/mpl-data/images/*.svg
 export PYTHONDONTWRITEBYTECODE=true
 export MPLCONFIGDIR=$PWD
 export MATPLOTLIBDATA=$PWD/lib/matplotlib/mpl-data
-%py_build
-#	python setup.py build build_ext -ldl -lfreetype
+python -m pip wheel --wheel-dir=../RPMBUILD_wheels --config-settings=setup-args="-Dsystem-freetype=true" --config-settings=setup-args="-Dsystem-qhull=true" --no-deps --no-build-isolation --verbose .
 
 %if %{with_html}
 # Need to make built matplotlib libs available for the sphinx extensions:
