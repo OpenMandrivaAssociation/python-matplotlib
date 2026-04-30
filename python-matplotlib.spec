@@ -9,12 +9,12 @@
 
 # https://fedorahosted.org/fpc/ticket/381
 %global with_bundled_fonts 1
-#global debug_package %nil
+#global debug_package %%nil
 %undefine _debugsource_packages
 
 Summary:	Python 2D plotting library
 Name:		python-%{module}
-Version:	3.10.8
+Version:	3.10.9
 Release:	1
 Group:		Development/Python
 License:	Python license
@@ -27,7 +27,7 @@ BuildRequires:	pkgconfig(freetype2)
 #BuildRequires:	pkgconfig(libagg)
 BuildRequires:	pkgconfig(libbrotlidec)
 BuildRequires:	pkgconfig(libpng)
-BuildRequires:	pkgconfig(python3)
+BuildRequires:	pkgconfig(python)
 BuildRequires:	pkgconfig(tcl)
 BuildRequires:	pkgconfig(tk)
 BuildRequires:	pkgconfig(zlib)
@@ -89,8 +89,8 @@ errorcharts, scatterplots, etc, with just a few lines of code.
 %files
 %doc README.md
 %doc LICENSE/
-%{python_sitearch}/%{module}-*.*-info
-%{python_sitearch}/%{module}/
+%{python_sitearch}/%{module}-%{version}*.*-info
+%{python_sitearch}/%{module}
 %{python_sitearch}/mpl_toolkits/
 %{python_sitearch}/pylab.py*
 %exclude %{py_platsitedir}/%{module}/backends/backend_cairo.py*
@@ -270,6 +270,7 @@ sed -i 's/\(USE_FONTCONFIG = \)False/\1True/' lib/matplotlib/font_manager.py
 chmod -x lib/matplotlib/mpl-data/images/*.svg
 
 %build
+export LDFLAGS="%{ldflags} -lpython%{pyver}"
 export PYTHONDONTWRITEBYTECODE=true
 export MPLCONFIGDIR=$PWD
 export MATPLOTLIBDATA=$PWD/lib/matplotlib/mpl-data
