@@ -14,7 +14,7 @@
 
 Summary:	Python 2D plotting library
 Name:		python-%{module}
-Version:	3.10.9
+Version:	3.11.1
 Release:	1
 Group:		Development/Python
 License:	Python license
@@ -253,7 +253,7 @@ BuildArch:	noarch
 #-----------------------------------------------------------------------
 
 %prep
-%autosetup -p1 -n %{module}-%{version}
+%autosetup -p1 -n matplotlib-3.11.1
 
 # Copy mplsetup.cfg to the builddir
 cp %{SOURCE1} .
