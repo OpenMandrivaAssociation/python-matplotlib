@@ -24,6 +24,7 @@ Source1:	mplsetup.cfg
 Patch1:		0001-matplotlibrc-path-search-fix.patch
 BuildRequires:	pkgconfig(cairo)
 BuildRequires:	pkgconfig(freetype2)
+BuildRequires:	pkgconfig(raqm)
 #BuildRequires:	pkgconfig(libagg)
 BuildRequires:	pkgconfig(libbrotlidec)
 BuildRequires:	pkgconfig(libpng)
@@ -276,7 +277,7 @@ export LDFLAGS="%{ldflags} -lpython%{pyver}"
 export PYTHONDONTWRITEBYTECODE=true
 export MPLCONFIGDIR=$PWD
 export MATPLOTLIBDATA=$PWD/lib/matplotlib/mpl-data
-python -m pip wheel --wheel-dir=../RPMBUILD_wheels --config-settings=setup-args="-Dsystem-freetype=true" --config-settings=setup-args="-Dsystem-qhull=true" --no-deps --no-build-isolation --verbose .
+python -m pip wheel --wheel-dir=../RPMBUILD_wheels --config-settings=setup-args="-Dsystem-freetype=true" --config-settings=setup-args="-Dsystem-qhull=true" --config-settings=setup-args="-Dsystem-libraqm=true" --no-deps --no-build-isolation --verbose .
 
 %if %{with_html}
 # Need to make built matplotlib libs available for the sphinx extensions:
