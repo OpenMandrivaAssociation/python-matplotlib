@@ -27,12 +27,11 @@ BuildRequires:	pkgconfig(freetype2)
 #BuildRequires:	pkgconfig(libagg)
 BuildRequires:	pkgconfig(libbrotlidec)
 BuildRequires:	pkgconfig(libpng)
-BuildRequires:	pkgconfig(python)
+BuildRequires:	pkgconfig(python3)
 BuildRequires:	pkgconfig(tcl)
 BuildRequires:	pkgconfig(tk)
 BuildRequires:	pkgconfig(zlib)
 BuildRequires:	python%{pyver}dist(configobj)
-BuildRequires:	python%{pyver}dist(ipython)
 BuildRequires:	python%{pyver}dist(numpy)
 BuildRequires:	python%{pyver}dist(pip)
 BuildRequires:	python%{pyver}dist(pybind11)
@@ -45,8 +44,7 @@ BuildRequires:	python%{pyver}dist(meson-python)
 # Without this dependency, matplotlib still builds fine, but
 # pretends its version is 0.0.0
 BuildRequires:	python%{pyver}dist(setuptools-scm)
-BuildRequires:	python-cxx-devel
-BuildRequires:	python-pkg-resources
+BuildRequires:	python%{pyver}dist(wheel)
 BuildRequires:	python-qt6
 BuildRequires:	qhull-devel
 BuildRequires:	tkinter
@@ -269,7 +267,11 @@ sed -i 's/\(USE_FONTCONFIG = \)False/\1True/' lib/matplotlib/font_manager.py
 
 chmod -x lib/matplotlib/mpl-data/images/*.svg
 
+# setuptools-scm 10 is fine for a wheel. The <10 pin only guards editable installs.
+sed -i 's/setuptools_scm>=7,<10/setuptools_scm>=7/' pyproject.toml
+
 %build
+export SETUPTOOLS_SCM_PRETEND_VERSION=%{version}
 export LDFLAGS="%{ldflags} -lpython%{pyver}"
 export PYTHONDONTWRITEBYTECODE=true
 export MPLCONFIGDIR=$PWD
@@ -311,6 +313,7 @@ rm -rf %{buildroot}%{py_platsitedir}/%{module}/backends/backend_qt4*.py*
 rm -rf %{buildroot}%{py_platsitedir}/%{module}/backends/backend_macos*.py*
 
 %if %{run_tests}
+BuildRequires:	python%{pyver}dist(ipython)
 %check
 # This should match the default backend
 echo "backend      : %{backend}" > matplotlibrc
